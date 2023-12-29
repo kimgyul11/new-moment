@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div css={Container}>
+      <h1>hello</h1>
+      <Button>하이</Button>
     </div>
   );
 }
+
+const Container = css`
+  background-color: red;
+  width: 100%;
+  height: 100%;
+`;
+
+const Button = styled.button`
+  width: 200px;
+  height: 100px;
+`;
 
 export default App;
