@@ -31,4 +31,4 @@ export const typographyMap = {
   `,
 };
 
-export type typography = keyof typeof typographyMap;
+export type Typography = keyof typeof typographyMap;
