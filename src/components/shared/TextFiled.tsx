@@ -41,6 +41,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             color={labelColor}
             display="inline-block"
             style={{ marginBottom: 6 }}
+            bold={true}
           >
             {label}
           </Text>

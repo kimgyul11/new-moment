@@ -12,7 +12,7 @@ function Navbar() {
     <Container>
       <Flex justify="space-between" align="center" css={navbarContainerStyles}>
         <Link to="/">HOME</Link>
-        <Text>{pathname}</Text>
+        <Text bold={true}>{pathname}</Text>
         <Link to="/my">mypage</Link>
       </Flex>
     </Container>
