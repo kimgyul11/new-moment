@@ -1,7 +1,7 @@
 import { colors } from "@/styles/colorPalette";
 import styled from "@emotion/styled";
 import Flex from "./Flex";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 import Text from "./Text";
 import useUser from "@/hooks/auth/useUser";
@@ -9,6 +9,7 @@ import { useCallback } from "react";
 import Button from "./Button";
 
 function Navbar() {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useUser();
   const showSignButton = ["/signup", "/signin"].includes(pathname) === false;
@@ -21,7 +22,7 @@ function Navbar() {
       return <Text bold={true}>마이 모멘트</Text>;
     }
     if (pathname === "/signin") {
-      return <Text bold={true}>로그인</Text>;
+      return <Text bold={true}>환영합니다</Text>;
     }
     if (pathname === "/signup") {
       return <Text bold={true}>회원가입</Text>;
@@ -36,7 +37,7 @@ function Navbar() {
             <img
               src={
                 user.photoURL ??
-                "https://cdn0.iconfinder.com/data/icons/phosphor-fill-vol-4/256/user-circle-fill-512.png"
+                "https://cdn4.iconfinder.com/data/icons/coco-line/24/User-512.png"
               }
               alt={`${user.displayName}의 프로필`}
               width={40}
@@ -54,10 +55,31 @@ function Navbar() {
       );
     }
   }, [user, showSignButton]);
+
+  const renderLeft = useCallback(() => {
+    if (pathname === "/") {
+      return (
+        <Link to="/">
+          <p>LOGO</p>
+        </Link>
+      );
+    } else {
+      return (
+        <img
+          src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-left-512.png"
+          width={30}
+          height={30}
+          onClick={() => navigate(-1)}
+          style={{ cursor: "pointer" }}
+        />
+      );
+    }
+  }, [pathname]);
+
   return (
     <Container>
       <Flex justify="space-between" align="center" css={navbarContainerStyles}>
-        <Link to="/">HOME</Link>
+        {renderLeft()}
         {renderTitle()}
         {renderButton()}
       </Flex>
@@ -67,6 +89,8 @@ function Navbar() {
 const Container = styled.nav`
   width: 100%;
   background-color: ${colors.white};
+  top: 0%;
+  position: sticky;
 `;
 const navbarContainerStyles = css`
   max-width: 768px;

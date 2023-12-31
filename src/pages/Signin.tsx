@@ -1,12 +1,14 @@
 import { auth } from "@/remote/firebase";
 import Form from "@components/signin/Form";
+import useUser from "@/hooks/auth/useUser";
 import { FormValues } from "@models/signin";
 import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function SigninPage() {
+  const user = useUser();
   const navigate = useNavigate();
   //submit이벤트
   const handleSubmit = useCallback(async (formValues: FormValues) => {
@@ -25,6 +27,9 @@ function SigninPage() {
       }
     }
   }, []);
+  if (user) {
+    return <Navigate to="/" replace={true} />;
+  }
   return <Form onSubmit={handleSubmit} />;
 }
 

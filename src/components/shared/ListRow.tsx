@@ -11,6 +11,7 @@ interface ListRowProps {
   withArrow?: boolean;
   onClick?: () => void;
   as?: "div" | "li";
+  hover?: boolean;
 }
 
 function ListRow({

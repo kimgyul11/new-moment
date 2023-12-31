@@ -1,1 +1,1 @@
-export interface Moments {}
+export interface Moment {}
