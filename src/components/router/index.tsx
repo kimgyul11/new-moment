@@ -5,6 +5,7 @@ import Layout from "../shared/Layout";
 import Navbar from "../shared/Navbar";
 import Home from "@/pages/Home";
 import AuthGuard from "../auth/AuthGuard";
+import MyPage from "@/pages/My";
 
 function Router() {
   return (
@@ -16,6 +17,8 @@ function Router() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/signin" element={<SigninPage />} />
+            <Route path="/my" element={<MyPage />} />
+            <Route path="/moments/moment:id" element={<SigninPage />} />
           </Route>
         </Routes>
       </AuthGuard>

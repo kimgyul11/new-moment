@@ -7,6 +7,7 @@ import Text from "./Text";
 import useUser from "@/hooks/auth/useUser";
 import { useCallback } from "react";
 import Button from "./Button";
+import ProfileImage from "./ProfileImage";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -34,7 +35,8 @@ function Navbar() {
       return (
         <Flex align="center">
           <Link to="/my">
-            <img
+            <ProfileImage />
+            {/* <img
               src={
                 user.photoURL ??
                 "https://cdn4.iconfinder.com/data/icons/coco-line/24/User-512.png"
@@ -42,7 +44,7 @@ function Navbar() {
               alt={`${user.displayName}의 프로필`}
               width={40}
               height={40}
-            />
+            /> */}
           </Link>
         </Flex>
       );

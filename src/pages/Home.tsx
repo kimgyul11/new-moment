@@ -3,18 +3,15 @@ import MomentList from "@components/home/MomentList";
 import { css } from "@emotion/react";
 function Home() {
   return (
-    <div css={componentStyle}>
+    <div>
       <Top
         title="베스트 모멘트!"
         subTitle="지금 가장 인기있는 순간들을 확인해보세요!"
-      ></Top>
+      />
       {/* 캐러셀 영역 */}
       <MomentList />
     </div>
   );
 }
-const componentStyle = css`
-  background-color: green;
-`;
 
 export default Home;
