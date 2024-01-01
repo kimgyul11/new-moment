@@ -71,7 +71,6 @@ function ProfileImage({
 const Container = styled.div`
   position: relative;
   display: inline-block;
-  cursor: pointer;
 
   & img {
     border-radius: 100%;

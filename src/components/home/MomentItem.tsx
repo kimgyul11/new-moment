@@ -5,21 +5,22 @@ import Flex from "@shared/Flex";
 import Text from "@shared/Text";
 import Spacing from "@shared/Spacing";
 import { colors } from "@styles/colorPalette";
-import { useQuery } from "react-query";
-import { getUser } from "@/remote/user";
 import ProfileImage from "../shared/ProfileImage";
+import { useGetProfile } from "@/hooks/auth/useGetProfile";
+import useUser from "@/hooks/auth/useUser";
+import { Fragment } from "react";
+import { Link } from "react-router-dom";
 
 function MomentItem({ moment }: any) {
-  const { data: user } = useQuery(["user", moment.userId], () =>
-    getUser({ id: moment.userId })
-  );
+  const user = useUser();
+  const { data } = useGetProfile({ userId: moment.userId });
 
   return (
     <li css={containerStyle}>
       {/* head */}
       <Flex justify="space-between">
         <Flex align="center">
-          <ProfileImage mode="moment" />
+          <ProfileImage mode="moment" url={data?.photoURL} />
           <Flex direction="column">
             <Text bold={true}>{moment.username}</Text>
             <Text typography="t7" color="gray400">
@@ -33,11 +34,11 @@ function MomentItem({ moment }: any) {
       </Flex>
       <Spacing size={8} />
       {/* contents */}
-      <Flex direction="column" css={contentsWrap}>
-        {moment.photo && (
-          <>
-            <Flex justify="center">
-              <div css={photoWrap}>
+      <Flex direction="column">
+        <Link to={`/moments/${moment.id}`}>
+          <Flex direction="column" css={contentsWrap}>
+            {moment.photo && (
+              <Flex justify="center" css={photoWrap}>
                 <img
                   src={moment.photo}
                   style={{
@@ -46,17 +47,37 @@ function MomentItem({ moment }: any) {
                     objectFit: "contain",
                   }}
                 />
-              </div>
-            </Flex>
-          </>
-        )}
+              </Flex>
+            )}
+            <Spacing size={16} />
+            <Text typography="t6">{moment.text}</Text>
+          </Flex>
+        </Link>
         <Spacing size={16} />
-        <Text typography="t6">{moment.text}</Text>
+
+        {moment?.hashTag.length > 0 && (
+          <Flex>
+            {moment?.hashTag.map((tag: string, idx: number) => (
+              <Fragment key={idx}>
+                <Text bold={true} typography="t7" color="gray500">
+                  #{tag}
+                </Text>
+                <Spacing direction="horizontal" size={8} />
+              </Fragment>
+            ))}
+          </Flex>
+        )}
       </Flex>
       <Spacing size={8} />
       {/* footer */}
       <Flex justify="end">
         <Button.Group>
+          {user?.uid === moment.userId && (
+            <>
+              <Button color="error">삭제</Button>
+              <Button>수정</Button>
+            </>
+          )}
           <Button weak={true}>✅</Button>
           <Button>🎁</Button>
         </Button.Group>
@@ -66,7 +87,7 @@ function MomentItem({ moment }: any) {
 }
 
 const containerStyle = css`
-  padding: 8px 24px;
+  padding: 12px 0px;
   border-bottom: 1px solid ${colors.gray200};
   margin: 16px 0px;
 `;

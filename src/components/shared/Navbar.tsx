@@ -23,7 +23,7 @@ function Navbar() {
       return <Text bold={true}>마이 모멘트</Text>;
     }
     if (pathname === "/signin") {
-      return <Text bold={true}>환영합니다</Text>;
+      return <Text bold={true}>로그인</Text>;
     }
     if (pathname === "/signup") {
       return <Text bold={true}>회원가입</Text>;
@@ -36,15 +36,6 @@ function Navbar() {
         <Flex align="center">
           <Link to="/my">
             <ProfileImage />
-            {/* <img
-              src={
-                user.photoURL ??
-                "https://cdn4.iconfinder.com/data/icons/coco-line/24/User-512.png"
-              }
-              alt={`${user.displayName}의 프로필`}
-              width={40}
-              height={40}
-            /> */}
           </Link>
         </Flex>
       );
@@ -93,9 +84,10 @@ const Container = styled.nav`
   background-color: ${colors.white};
   top: 0%;
   position: sticky;
+  z-index: 10;
 `;
 const navbarContainerStyles = css`
-  max-width: 768px;
+  max-width: 480px;
   margin: auto;
   padding: 10px 24px;
   top: 0;
