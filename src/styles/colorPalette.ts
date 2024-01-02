@@ -6,7 +6,7 @@ export const colorPalette = css`
     --gray: rgba(58, 58, 58, 1);
     --gray50: #f9fafb;
     --gray100: #f3f4f6;
-    --gray200: #e5e7eb;
+    --gray200: #f2f2f2;
     --gray300: #d1d5db;
     --gray400: #9ca3af;
     --gray500: #6b7280;

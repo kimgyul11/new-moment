@@ -1,9 +1,13 @@
 import { css } from "@emotion/react";
-import { colorPalette } from "./colorPalette";
+import { colorPalette, colors } from "./colorPalette";
 
 export default css`
   :root {
     ${colorPalette}
+  }
+
+  body {
+    background-color: ${colors.gray200};
   }
 
   html,

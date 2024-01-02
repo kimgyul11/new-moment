@@ -84,6 +84,7 @@ const Container = styled.nav`
   background-color: ${colors.white};
   top: 0%;
   position: sticky;
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
   z-index: 10;
 `;
 const navbarContainerStyles = css`

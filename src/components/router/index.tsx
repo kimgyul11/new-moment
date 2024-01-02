@@ -7,6 +7,8 @@ import Home from "@/pages/Home";
 import AuthGuard from "../auth/AuthGuard";
 import MyPage from "@/pages/My";
 import MomentPage from "@/pages/Moment";
+import SearchPage from "@/pages/Search";
+import WritePage from "@/pages/Write";
 
 function Router() {
   return (
@@ -20,6 +22,9 @@ function Router() {
             <Route path="/signin" element={<SigninPage />} />
             <Route path="/my" element={<MyPage />} />
             <Route path="/moments/:id" element={<MomentPage />} />
+            <Route path="/write" element={<WritePage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/search/:id" element={<SearchPage />} />
           </Route>
         </Routes>
       </AuthGuard>

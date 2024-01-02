@@ -47,13 +47,10 @@ function Carousel() {
   );
 }
 
-const Container = styled.div`
-  padding: 0px 24px;
-`;
+const Container = styled.div``;
 const swiperContainer = css`
   width: 100%;
   height: 100%;
-  background-color: ${colors.gray200};
   .swiper-slide img {
     display: block;
     width: 100%;
@@ -70,11 +67,14 @@ const swiperContainer = css`
     color: #000;
     opacity: 1;
     background: rgba(0, 0, 0, 0.2);
+    font-weight: bold;
   }
 
   .swiper-pagination-bullet-active {
     color: ${colors.white};
     background: ${colors.blue500};
+  }
+  .swiper-pagination-horizontal {
   }
 `;
 

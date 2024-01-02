@@ -8,10 +8,11 @@ import { colors } from "@styles/colorPalette";
 import ProfileImage from "../shared/ProfileImage";
 import { useGetProfile } from "@/hooks/auth/useGetProfile";
 import useUser from "@/hooks/auth/useUser";
-import { Fragment } from "react";
 import { Link } from "react-router-dom";
+import { Moment } from "@/models/moment";
+import { Fragment } from "react";
 
-function MomentItem({ moment }: any) {
+function MomentItem({ moment }: { moment: Moment }) {
   const user = useUser();
   const { data } = useGetProfile({ userId: moment.userId });
 
@@ -22,7 +23,7 @@ function MomentItem({ moment }: any) {
         <Flex align="center">
           <ProfileImage mode="moment" url={data?.photoURL} />
           <Flex direction="column">
-            <Text bold={true}>{moment.username}</Text>
+            <Text bold={true}>{moment.userId}</Text>
             <Text typography="t7" color="gray400">
               20202000
             </Text>
@@ -53,16 +54,18 @@ function MomentItem({ moment }: any) {
             <Text typography="t6">{moment.text}</Text>
           </Flex>
         </Link>
-        <Spacing size={16} />
+        <Spacing size={24} />
 
-        {moment?.hashTag.length > 0 && (
+        {moment.hashTag && moment?.hashTag.length > 0 && (
           <Flex>
-            {moment?.hashTag.map((tag: string, idx: number) => (
+            {moment.hashTag.map((tag: string, idx: number) => (
               <Fragment key={idx}>
-                <Text bold={true} typography="t7" color="gray500">
-                  #{tag}
-                </Text>
-                <Spacing direction="horizontal" size={8} />
+                <Link to={"/search"} state={{ tag }}>
+                  <Text bold={true} typography="t7" color="gray500">
+                    #{tag}
+                  </Text>
+                </Link>
+                <Spacing direction="horizontal" size={6} />
               </Fragment>
             ))}
           </Flex>
@@ -87,14 +90,12 @@ function MomentItem({ moment }: any) {
 }
 
 const containerStyle = css`
-  padding: 12px 0px;
-  border-bottom: 1px solid ${colors.gray200};
-  margin: 16px 0px;
+  padding: 12px 12px;
+  border-bottom: 8px solid ${colors.gray200};
 `;
 const photoWrap = css`
   width: 100%;
   height: 300px;
-  background-color: ${colors.gray50};
 `;
 const contentsWrap = css`
   min-height: 80px;
