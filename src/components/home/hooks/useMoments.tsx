@@ -1,7 +1,13 @@
-import { getMoments } from "@/remote/moment";
+import { getMoment, getMoments } from "@/remote/moment";
 import { useInfiniteQuery } from "react-query";
 
 function useMoments() {
+  //mode = all , like , follow
+  //default = all
+  //if(mode === all){ getMoments }
+  //if(mode === like){ getLikeMoments }
+  //if(mode === follow){ getfollowMoments}
+
   const {
     data,
     isFetching,

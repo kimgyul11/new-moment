@@ -8,8 +8,9 @@ import styled from "@emotion/styled";
 function Home() {
   return (
     <Container>
+      <Spacing size={80} backgroundColor="gray200" />
       <Top
-        title="베스트 모멘트!"
+        title="베스트 모멘트✨"
         subTitle="지금 가장 인기있는 순간들을 확인해보세요!"
       />
       <Carousel />

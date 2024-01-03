@@ -15,7 +15,10 @@ import { Fragment } from "react";
 function MomentItem({ moment }: { moment: Moment }) {
   const user = useUser();
   const { data } = useGetProfile({ userId: moment.userId });
-
+  // todo
+  //1.유저 정보 가져와서 프로필 그리기
+  //2.팔로우 정보 가져와서 체크
+  //3.라이크 정보 가져와서 체크
   return (
     <li css={containerStyle}>
       {/* head */}
@@ -23,14 +26,18 @@ function MomentItem({ moment }: { moment: Moment }) {
         <Flex align="center">
           <ProfileImage mode="moment" url={data?.photoURL} />
           <Flex direction="column">
-            <Text bold={true}>{moment.userId}</Text>
+            <Text bold={true} typography="t6">
+              {moment.userId}
+            </Text>
             <Text typography="t7" color="gray400">
               20202000
             </Text>
           </Flex>
         </Flex>
-        <Flex>
-          <Button weak={true}>친구추가</Button>
+        <Flex align="center">
+          <div css={iconStyles}>
+            <img src="https://cdn4.iconfinder.com/data/icons/basic-ui-2-line/32/people-plus-add-friend-member-512.png" />
+          </div>
         </Flex>
       </Flex>
       <Spacing size={8} />
@@ -74,16 +81,14 @@ function MomentItem({ moment }: { moment: Moment }) {
       <Spacing size={8} />
       {/* footer */}
       <Flex justify="end">
-        <Button.Group>
-          {user?.uid === moment.userId && (
-            <>
-              <Button color="error">삭제</Button>
-              <Button>수정</Button>
-            </>
-          )}
-          <Button weak={true}>✅</Button>
-          <Button>🎁</Button>
-        </Button.Group>
+        {user?.uid === moment.userId && (
+          <>
+            <Button color="error">삭제</Button>
+            <Button>수정</Button>
+          </>
+        )}
+        <Button weak={true}>✅</Button>
+        <Button>🎁</Button>
       </Flex>
     </li>
   );
@@ -91,7 +96,7 @@ function MomentItem({ moment }: { moment: Moment }) {
 
 const containerStyle = css`
   padding: 12px 12px;
-  border-bottom: 8px solid ${colors.gray200};
+  border-bottom: 12px solid ${colors.gray200};
 `;
 const photoWrap = css`
   width: 100%;
@@ -100,4 +105,17 @@ const photoWrap = css`
 const contentsWrap = css`
   min-height: 80px;
 `;
+const iconStyles = css`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
+const footer = css``;
 export default MomentItem;

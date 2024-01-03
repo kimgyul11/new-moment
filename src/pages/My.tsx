@@ -15,13 +15,8 @@ function MyPage() {
   };
   return (
     <>
-      <Spacing size={16} />
-      <Button.Group>
-        <Button>나의 프로필</Button>
-        <Button>좋아요한 게시물</Button>
-        <Button>친구의 게시물 </Button>
-      </Button.Group>
-      <Top title="나의정보" subTitle="프로필을 수정해보세요!"></Top>
+      <Spacing size={56} />
+      <Top title="나의정보" subTitle="프로필을 수정할 수 있습니다."></Top>
       <Flex justify="center" direction="column" align="center">
         <ProfileImage size={160} mode="upload" />
         <Input defaultValue={user?.displayName} />
@@ -29,6 +24,7 @@ function MyPage() {
           로그아웃
         </Button>
       </Flex>
+      <Top title="나의 모멘트" subTitle="소중한 순간들을 확인해보세요" />
     </>
   );
 }

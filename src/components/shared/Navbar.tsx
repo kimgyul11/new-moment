@@ -16,9 +16,6 @@ function Navbar() {
   const showSignButton = ["/signup", "/signin"].includes(pathname) === false;
 
   const renderTitle = useCallback(() => {
-    if (pathname === "/") {
-      return <Text typography="t6">순간을 공유해보세요📸</Text>;
-    }
     if (pathname === "/my") {
       return <Text bold={true}>마이 모멘트</Text>;
     }
@@ -27,6 +24,9 @@ function Navbar() {
     }
     if (pathname === "/signup") {
       return <Text bold={true}>회원가입</Text>;
+    }
+    if (pathname === "/notification") {
+      return <Text bold={true}>알림</Text>;
     }
   }, [pathname]);
 
@@ -83,7 +83,7 @@ const Container = styled.nav`
   width: 100%;
   background-color: ${colors.white};
   top: 0%;
-  position: sticky;
+  position: fixed;
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
   z-index: 10;
 `;
