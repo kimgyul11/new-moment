@@ -1,11 +1,13 @@
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
   orderBy,
   query,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { store } from "./firebase";
 import { COLLECTIONS } from "@/constants/collections";
@@ -44,8 +46,6 @@ export async function getComments({ momentId }: { momentId: string }) {
 
   //4-3for of를 돌면서 체크
   for (let comment of comments) {
-    //
-    console.log("userMap", userMap);
     const cashingUser = userMap[comment.userId];
 
     //1.캐시된 유저가 없을 경우
@@ -55,8 +55,6 @@ export async function getComments({ momentId }: { momentId: string }) {
         doc(collection(store, COLLECTIONS.USER), comment.userId)
       );
       const user = userSnapshot.data() as User;
-      console.log(user);
-
       //가져온 유저 정보를 userMap에 저장해둔다.
       userMap[comment.userId] = user;
 
@@ -73,6 +71,7 @@ export async function getComments({ momentId }: { momentId: string }) {
       });
     }
   }
+
   return results;
 }
 
@@ -85,4 +84,36 @@ export function writeComment(newComment: Omit<Comment, "id">) {
 
   //2.promise를 반환
   return setDoc(likeRef, newComment);
+}
+
+//Comment 삭제
+export function removeComment({
+  momentId,
+  commentId,
+}: {
+  momentId: string;
+  commentId: string;
+}) {
+  const momentRef = doc(collection(store, COLLECTIONS.MOMENTS), momentId);
+  const commentRef = doc(collection(momentRef, COLLECTIONS.COMMENT), commentId);
+
+  return deleteDoc(commentRef);
+}
+
+//Comment 수정
+export function updateComment({
+  momentId,
+  commentId,
+  newComment,
+}: {
+  momentId: string;
+  commentId: string;
+  newComment: string;
+}) {
+  const momentRef = doc(collection(store, COLLECTIONS.MOMENTS), momentId);
+  const commentRef = doc(collection(momentRef, COLLECTIONS.COMMENT), commentId);
+
+  return updateDoc(commentRef, {
+    content: newComment,
+  });
 }

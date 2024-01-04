@@ -1,37 +1,46 @@
 import { ChangeEvent, useCallback, useState } from "react";
-import useComments from "./hooks/useComments";
-import Flex from "../shared/Flex";
-import Text from "../shared/Text";
-import ListRow from "../shared/ListRow";
 import { css } from "@emotion/react";
-import InputBox from "../shared/InputBox";
-import Spacing from "../shared/Spacing";
-import Button from "../shared/Button";
 
+import useComments from "./hooks/useComments";
+import Flex from "@shared/Flex";
+import Text from "@shared/Text";
+import ListRow from "@shared/ListRow";
+import InputBox from "@shared/InputBox";
+import Spacing from "@shared/Spacing";
+import Button from "@shared/Button";
 import useUser from "@/hooks/auth/useUser";
 
 function Comment({ momentId }: { momentId: string }) {
-  const { data: comments, isLoading, write } = useComments({ momentId });
+  const {
+    data: comments,
+    isLoading,
+    write,
+    remove,
+    update,
+  } = useComments({ momentId });
   const user = useUser();
   const [content, setContent] = useState("");
+  const [updateMode, setUpdateMode] = useState({
+    commentId: "",
+    isUpdate: false,
+  });
+  const [newComment, setNewComment] = useState("");
 
   //댓글을 부모로부터 매개변수로 받는다.
   // 1.댓글 유무에 따른 렌더링
   const renderComments = useCallback(() => {
-    //1-1.댓글이 존재하지 않을 경우
+    //댓글이 존재하지 않을 경우
     if (comments?.length === 0) {
       return null;
     }
-
-    //1-2.댓글이 존재할 경우
+    //댓글이 존재할 경우
     return (
       <ul>
         {comments?.map((comment) => (
-          <li css={containerStyles}>
+          <li key={comment.id}>
             <Flex direction="column">
               <ListRow
                 as="div"
-                key={comment.id}
                 left={
                   comment.user.photoURL != null ? (
                     <img src={comment.user.photoURL} width={40} />
@@ -44,31 +53,94 @@ function Comment({ momentId }: { momentId: string }) {
                   />
                 }
                 right={
-                  <>
-                    <p>삭제</p>
-                    <p>삭제</p>
-                  </>
+                  user != null ? (
+                    <Flex>
+                      <Text
+                        bold={true}
+                        typography="t7"
+                        css={cursorPointer}
+                        onClick={() => {
+                          setUpdateMode({
+                            commentId: comment.id,
+                            isUpdate: true,
+                          });
+                          setNewComment(comment.content);
+                        }}
+                      >
+                        {updateMode.commentId === comment.id &&
+                        updateMode.isUpdate
+                          ? null
+                          : "수정"}
+                      </Text>
+                      <Spacing direction="horizontal" size={12} />
+                      <Text
+                        bold={true}
+                        typography="t7"
+                        color="red"
+                        css={cursorPointer}
+                        onClick={() => {
+                          if (
+                            updateMode.commentId === comment.id &&
+                            updateMode.isUpdate
+                          ) {
+                            setUpdateMode({ commentId: "", isUpdate: false });
+                            return;
+                          }
+                          const ok = window.confirm("정말 삭제하시겠습니까?");
+                          if (ok) {
+                            remove({ momentId, commentId: comment.id });
+                          }
+                          return;
+                        }}
+                      >
+                        {updateMode.commentId === comment.id &&
+                        updateMode.isUpdate
+                          ? "취소"
+                          : "삭제"}
+                      </Text>
+                    </Flex>
+                  ) : null
                 }
               />
               <Flex css={contentStyles}>
-                <Text typography="t6">{comment.content}</Text>
+                {updateMode.commentId === comment.id && updateMode.isUpdate ? (
+                  <Flex direction="column" css={{ width: "100%" }}>
+                    <InputBox
+                      defaultValue={comment.content}
+                      value={newComment}
+                      onChange={handleNewCommentChange}
+                    />
+                    <Spacing size={12} />
+                    <Button
+                      onClick={() => {
+                        update({ momentId, commentId: comment.id, newComment });
+                        setUpdateMode((prev) => ({ ...prev, isUpdate: false }));
+                      }}
+                    >
+                      확인
+                    </Button>
+                  </Flex>
+                ) : (
+                  <Text typography="t6">{comment.content}</Text>
+                )}
               </Flex>
             </Flex>
           </li>
         ))}
       </ul>
     );
-  }, [comments]);
+  }, [comments, user, updateMode, newComment]);
 
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
+  };
+  const handleNewCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setNewComment(e.target.value);
   };
 
   if (isLoading) {
     return null;
   }
-
-  // 2.useCommet() 커스텀 훅으로 mutate함수 가져와서 동작
 
   return (
     <div>
@@ -90,7 +162,6 @@ function Comment({ momentId }: { momentId: string }) {
           disabled={!user}
           onClick={async () => {
             const success = await write(content);
-
             if (success === true) {
               setContent("");
             }
@@ -109,13 +180,13 @@ function Comment({ momentId }: { momentId: string }) {
 const contentStyles = css`
   padding: 4px 32px;
 `;
-const containerStyles = css`
-  margin-bottom: 12px;
-`;
 
 const commentContainer = css`
   padding: 8px;
   border-radius: 8px;
+`;
+const cursorPointer = css`
+  cursor: pointer;
 `;
 
 export default Comment;

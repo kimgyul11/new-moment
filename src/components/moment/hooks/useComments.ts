@@ -1,5 +1,10 @@
 import useUser from "@/hooks/auth/useUser";
-import { getComments, writeComment } from "@/remote/comment";
+import {
+  removeComment,
+  getComments,
+  writeComment,
+  updateComment,
+} from "@/remote/comment";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 function useComments({ momentId }: { momentId: string }) {
@@ -29,7 +34,39 @@ function useComments({ momentId }: { momentId: string }) {
     }
   );
 
-  return { data, isLoading, write };
+  //3.코멘트 삭제하기
+  const { mutate: remove } = useMutation(
+    ({ momentId, commentId }: { momentId: string; commentId: string }) => {
+      return removeComment({ momentId, commentId });
+    },
+    {
+      onSuccess: () => {
+        client.invalidateQueries(["comments", momentId]);
+      },
+    }
+  );
+
+  //4.코멘트 수정하기
+  const { mutate: update } = useMutation(
+    ({
+      momentId,
+      commentId,
+      newComment,
+    }: {
+      momentId: string;
+      commentId: string;
+      newComment: string;
+    }) => {
+      return updateComment({ momentId, commentId, newComment });
+    },
+    {
+      onSuccess: () => {
+        client.invalidateQueries(["comments", momentId]);
+      },
+    }
+  );
+
+  return { data, isLoading, write, remove, update };
 }
 
 export default useComments;
