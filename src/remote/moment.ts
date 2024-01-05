@@ -1,5 +1,6 @@
 import {
   QuerySnapshot,
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -8,11 +9,18 @@ import {
   orderBy,
   query,
   startAfter,
+  updateDoc,
   where,
 } from "firebase/firestore";
-import { store } from "./firebase";
+import { storage, store } from "./firebase";
 import { COLLECTIONS } from "@constants/collections";
 import { Moment } from "@models/moment";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadString,
+} from "firebase/storage";
 
 //----moments를 가져오는 리모트 함수
 export async function getMoments(pageParams?: QuerySnapshot<Moment>) {
@@ -87,4 +95,28 @@ export async function getSearchMoment(tag: string) {
     ...doc.data(),
   }));
   return items;
+}
+
+//moment를 작성하는 리모트함수
+export async function writeMoment(moment: Omit<Moment, "id">) {
+  //1.데이터 타입 매개변수 모델 수정하기 id와 image를 Omit으로 처리
+
+  //-컬렉션에 추가
+  const docs = await addDoc(collection(store, COLLECTIONS.MOMENTS), {
+    createdAt: moment.createdAt,
+    text: moment.text,
+    userId: moment.userId,
+    hashTag: moment.hashTag,
+  });
+
+  //-이미지를 스토리지에 저장
+  //string으로 전달받으므로 uploadString으로 처리한다 (profile에서는 uploadBytes로 이미지를 저장했음)
+  const storageRef = ref(storage, `moment/${moment.userId}/${docs.id}`);
+  const imageUrl = await uploadString(storageRef, moment.image, "data_url");
+  const downloadUrl = await getDownloadURL(imageUrl.ref);
+
+  //-스토리지에 저장된 이미지를 가져와서 업데이트
+  await updateDoc(docs, {
+    image: downloadUrl,
+  });
 }

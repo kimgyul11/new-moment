@@ -45,16 +45,9 @@ function MomentItem({ moment }: { moment: Moment }) {
       <Flex direction="column">
         <Link to={`/moments/${moment.id}`}>
           <Flex direction="column" css={contentsWrap}>
-            {moment.photo && (
-              <Flex justify="center" css={photoWrap}>
-                <img
-                  src={moment.photo}
-                  style={{
-                    width: "100%",
-                    height: "300px",
-                    objectFit: "contain",
-                  }}
-                />
+            {moment.image && (
+              <Flex justify="center">
+                <img src={moment.image} css={photoWrap} />
               </Flex>
             )}
             <Spacing size={16} />
@@ -104,6 +97,7 @@ const photoWrap = css`
 `;
 const contentsWrap = css`
   min-height: 80px;
+  cursor: pointer;
 `;
 const iconStyles = css`
   width: 30px;

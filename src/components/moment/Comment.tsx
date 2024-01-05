@@ -20,10 +20,14 @@ function Comment({ momentId }: { momentId: string }) {
   } = useComments({ momentId });
   const user = useUser();
   const [content, setContent] = useState("");
-  const [updateMode, setUpdateMode] = useState({
+  const [updateMode, setUpdateMode] = useState<{
+    commentId: string;
+    isUpdate: boolean;
+  }>({
     commentId: "",
     isUpdate: false,
   });
+
   const [newComment, setNewComment] = useState("");
 
   //댓글을 부모로부터 매개변수로 받는다.
@@ -104,9 +108,12 @@ function Comment({ momentId }: { momentId: string }) {
               />
               <Flex css={contentStyles}>
                 {updateMode.commentId === comment.id && updateMode.isUpdate ? (
-                  <Flex direction="column" css={{ width: "100%" }}>
+                  <Flex
+                    direction="column"
+                    css={{ width: "100%" }}
+                    align="center"
+                  >
                     <InputBox
-                      defaultValue={comment.content}
                       value={newComment}
                       onChange={handleNewCommentChange}
                     />
@@ -116,8 +123,10 @@ function Comment({ momentId }: { momentId: string }) {
                         update({ momentId, commentId: comment.id, newComment });
                         setUpdateMode((prev) => ({ ...prev, isUpdate: false }));
                       }}
+                      css={{ width: "100%" }}
+                      weak={true}
                     >
-                      확인
+                      저장
                     </Button>
                   </Flex>
                 ) : (
@@ -159,7 +168,7 @@ function Comment({ momentId }: { momentId: string }) {
         </Flex>
         <Spacing size={12} />
         <Button
-          disabled={!user}
+          disabled={!user || content.length === 0}
           onClick={async () => {
             const success = await write(content);
             if (success === true) {
