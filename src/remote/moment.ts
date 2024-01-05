@@ -2,6 +2,7 @@ import {
   QuerySnapshot,
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -16,6 +17,7 @@ import { storage, store } from "./firebase";
 import { COLLECTIONS } from "@constants/collections";
 import { Moment } from "@models/moment";
 import {
+  deleteObject,
   getDownloadURL,
   ref,
   uploadBytes,
@@ -119,4 +121,18 @@ export async function writeMoment(moment: Omit<Moment, "id">) {
   await updateDoc(docs, {
     image: downloadUrl,
   });
+}
+
+//moment 삭제하는 리모트 함수
+export async function removeMoment({
+  momentId,
+  userId,
+}: {
+  momentId: string;
+  userId: string;
+}) {
+  const momentRef = doc(store, COLLECTIONS.MOMENTS, momentId);
+  const imageRef = ref(storage, `moment/${userId}/${momentId}`);
+  await deleteObject(imageRef);
+  return deleteDoc(momentRef);
 }

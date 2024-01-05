@@ -22,7 +22,11 @@ function WritePage() {
   const handleOnKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const { value } = e.target as HTMLInputElement;
     if (e.key === "Enter") {
-      if (value === "" || tags.includes(value.trim())) {
+      if (
+        value === "" ||
+        value.trim().length === 0 ||
+        tags.includes(value.trim())
+      ) {
         setHashTag("");
       } else {
         const uniqueTags = Array.from(new Set([...tags, value.trim()]));

@@ -1,10 +1,12 @@
 import { Moment } from "@/models/moment";
-import { writeMoment } from "@/remote/moment";
-import { useMutation } from "react-query";
+import { removeMoment, writeMoment } from "@/remote/moment";
+import { useMutation, useQueryClient } from "react-query";
 import useUser from "@hooks/auth/useUser";
 
 function useMoment() {
   const user = useUser();
+  const client = useQueryClient();
+  //create
   const { mutateAsync: write } = useMutation(
     async ({
       text,
@@ -26,7 +28,21 @@ function useMoment() {
       return true;
     }
   );
-  return { write };
+
+  //delete
+
+  const { mutate: remove } = useMutation(
+    ({ userId, momentId }: { userId: string; momentId: string }) => {
+      return removeMoment({ userId, momentId });
+    },
+    {
+      onSuccess: () => {
+        client.invalidateQueries(["moments"]);
+      },
+    }
+  );
+
+  return { write, remove };
 }
 
 export default useMoment;
