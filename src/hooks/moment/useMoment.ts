@@ -7,7 +7,7 @@ function useMoment() {
   const user = useUser();
   const client = useQueryClient();
   //create
-  const { mutateAsync: write } = useMutation(
+  const { mutateAsync: write, isLoading: writeIsLoading } = useMutation(
     async ({
       text,
       image,
@@ -30,7 +30,6 @@ function useMoment() {
   );
 
   //delete
-
   const { mutate: remove } = useMutation(
     ({ userId, momentId }: { userId: string; momentId: string }) => {
       return removeMoment({ userId, momentId });
@@ -42,7 +41,9 @@ function useMoment() {
     }
   );
 
-  return { write, remove };
+  //select Moment where(Like가 제일 많은 순)
+
+  return { write, writeIsLoading, remove };
 }
 
 export default useMoment;

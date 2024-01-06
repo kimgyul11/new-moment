@@ -30,6 +30,7 @@ function useComments({ momentId }: { momentId: string }) {
     {
       onSuccess: () => {
         client.invalidateQueries(["comments", momentId]);
+        client.invalidateQueries(["moment", momentId]);
       },
     }
   );
@@ -42,6 +43,7 @@ function useComments({ momentId }: { momentId: string }) {
     {
       onSuccess: () => {
         client.invalidateQueries(["comments", momentId]);
+        client.invalidateQueries(["moment", momentId]);
       },
     }
   );

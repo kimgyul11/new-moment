@@ -8,22 +8,25 @@ import { colors } from "@styles/colorPalette";
 import ProfileImage from "../shared/ProfileImage";
 import { useGetProfile } from "@/hooks/auth/useGetProfile";
 import useUser from "@/hooks/auth/useUser";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Moment } from "@/models/moment";
 import { Fragment } from "react";
-import useMoment from "@/hooks/moment/useMoment";
+
+import { getLikes } from "@/remote/like";
+import { useQuery } from "react-query";
+import ActionButton from "../moment/ActionButton";
 
 function MomentItem({ moment }: { moment: Moment }) {
+  //여기서 momentId를 받고 이것을 통해서 Like와 Comment 컬렉션 가져오기
+  const { data: likes } = useQuery(["likes", moment.id], () =>
+    getLikes({ momentId: moment.id })
+  );
+  console.log("likes", likes);
+
+  //getComments, getLikes
   const user = useUser();
   const { data } = useGetProfile({ userId: moment.userId });
-  const { remove } = useMoment();
-  const navigate = useNavigate();
-  const params = useParams();
 
-  // todo
-  //1.유저 정보 가져와서 프로필 그리기
-  //2.팔로우 정보 가져와서 체크
-  //3.라이크 정보 가져와서 체크
   return (
     <li css={containerStyle}>
       {/* head */}
@@ -78,30 +81,7 @@ function MomentItem({ moment }: { moment: Moment }) {
       </Flex>
       <Spacing size={8} />
       {/* footer */}
-      <Flex justify="end">
-        {user?.uid === moment.userId && (
-          <>
-            <Button
-              color="error"
-              onClick={() => {
-                const ok = window.confirm("정말 삭제하시겠습니까?");
-                if (!ok) return;
-                if (params.id == null) {
-                  remove({ userId: user.uid, momentId: moment.id });
-                } else {
-                  remove({ userId: user.uid, momentId: moment.id });
-                  navigate("/", { replace: true });
-                }
-              }}
-            >
-              삭제
-            </Button>
-            <Button>수정</Button>
-          </>
-        )}
-        <Button weak={true}>✅</Button>
-        <Button>🎁</Button>
-      </Flex>
+      <ActionButton moment={moment} />
     </li>
   );
 }

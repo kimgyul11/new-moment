@@ -1,6 +1,6 @@
 export const COLLECTIONS = {
   USER: "USER",
   MOMENTS: "moment",
-  LIKE: "LIKE",
+  LIKE: "Like",
   COMMENT: "COMMENT",
 } as const;

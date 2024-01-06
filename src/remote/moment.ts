@@ -4,6 +4,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getCountFromServer,
   getDoc,
   getDocs,
   limit,
@@ -20,11 +21,10 @@ import {
   deleteObject,
   getDownloadURL,
   ref,
-  uploadBytes,
   uploadString,
 } from "firebase/storage";
 
-//----moments를 가져오는 리모트 함수
+//Moments조회
 export async function getMoments(pageParams?: QuerySnapshot<Moment>) {
   // 1.pageParams에 따라 호출을 구분
   const momentQuery =
@@ -60,16 +60,27 @@ export async function getMoments(pageParams?: QuerySnapshot<Moment>) {
   };
 }
 
-//-----moment를 가져오는 리모트 함수
+//Moment comment와 like 조회
 export async function getMoment(id: string) {
-  const snapshot = await getDoc(doc(store, COLLECTIONS.MOMENTS, id));
-  return {
+  const momentRef = doc(store, COLLECTIONS.MOMENTS, id);
+  const commentRef = collection(momentRef, COLLECTIONS.COMMENT);
+  const count = await getCountFromServer(commentRef);
+
+  const snapshot = await getDoc(momentRef);
+  const commentCount = count.data().count;
+
+  const momentData = {
     id,
     ...snapshot.data(),
   } as Moment;
+
+  return {
+    ...momentData,
+    commentCount,
+  };
 }
 
-//-----베스트 게시물 가져오는 리모트 함수
+//BestMoments 조회 -- 수정필요
 export async function getBestMoment() {
   const snpashotQuery = query(
     collection(store, COLLECTIONS.MOMENTS),
@@ -84,7 +95,7 @@ export async function getBestMoment() {
   return items;
 }
 
-//------검색된 moment찾기
+//searchMoment조회 --수정필요
 export async function getSearchMoment(tag: string) {
   const snapshotQuery = query(
     collection(store, COLLECTIONS.MOMENTS),
@@ -99,7 +110,7 @@ export async function getSearchMoment(tag: string) {
   return items;
 }
 
-//moment를 작성하는 리모트함수
+//Moment 작성
 export async function writeMoment(moment: Omit<Moment, "id">) {
   //1.데이터 타입 매개변수 모델 수정하기 id와 image를 Omit으로 처리
 
@@ -123,7 +134,7 @@ export async function writeMoment(moment: Omit<Moment, "id">) {
   });
 }
 
-//moment 삭제하는 리모트 함수
+//Moment 삭제
 export async function removeMoment({
   momentId,
   userId,

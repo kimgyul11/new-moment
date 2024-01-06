@@ -18,7 +18,6 @@ import { User } from "@/models/user";
 export async function getComments({ momentId }: { momentId: string }) {
   //1.경로와 쿼리 지정
   const commentRef = doc(store, COLLECTIONS.MOMENTS, momentId);
-
   const commentQuery = query(
     collection(commentRef, COLLECTIONS.COMMENT),
     orderBy("createdAt", "desc")
