@@ -32,13 +32,13 @@ export async function getMoments(pageParams?: QuerySnapshot<Moment>) {
       ? query(
           collection(store, COLLECTIONS.MOMENTS),
           orderBy("createdAt", "desc"),
-          limit(10)
+          limit(5)
         )
       : query(
           collection(store, COLLECTIONS.MOMENTS),
           orderBy("createdAt", "desc"),
           startAfter(pageParams),
-          limit(10)
+          limit(5)
         );
 
   //2.가져온 데이터를 꺼내온다.
@@ -58,6 +58,36 @@ export async function getMoments(pageParams?: QuerySnapshot<Moment>) {
     items,
     lastVisible,
   };
+}
+
+//searchMoment조회 --수정필요
+export async function getSearchMoment(
+  tag: string,
+  pageParams?: QuerySnapshot<Moment>
+) {
+  const snapshotQuery =
+    pageParams == null
+      ? query(
+          collection(store, COLLECTIONS.MOMENTS),
+          where("hashTag", "array-contains-any", [tag]),
+          orderBy("createdAt", "desc"),
+          limit(5)
+        )
+      : query(
+          collection(store, COLLECTIONS.MOMENTS),
+          where("hashTag", "array-contains-any", [tag]),
+          orderBy("createdAt", "desc"),
+          startAfter(pageParams),
+          limit(5)
+        );
+  const snapshot = await getDocs(snapshotQuery);
+  const items = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  const lastVisible = snapshot.docs[snapshot.docs.length - 1];
+
+  return { items, lastVisible };
 }
 
 //Moment comment와 like 조회
@@ -88,21 +118,6 @@ export async function getBestMoment() {
     limit(8)
   );
   const snapshot = await getDocs(snpashotQuery);
-  const items = snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-  return items;
-}
-
-//searchMoment조회 --수정필요
-export async function getSearchMoment(tag: string) {
-  const snapshotQuery = query(
-    collection(store, COLLECTIONS.MOMENTS),
-    where("hashTag", "array-contains-any", [tag]),
-    orderBy("createdAt", "desc")
-  );
-  const snapshot = await getDocs(snapshotQuery);
   const items = snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),

@@ -28,6 +28,8 @@ function Navbar() {
     if (pathname === "/notification") {
       return <Text bold={true}>알림</Text>;
     }
+    if (pathname === "/search/:id") {
+    }
   }, [pathname]);
 
   const renderButton = useCallback(() => {
@@ -50,7 +52,7 @@ function Navbar() {
   }, [user, showSignButton]);
 
   const renderLeft = useCallback(() => {
-    if (pathname === "/") {
+    if (pathname === "/" || pathname.includes("search")) {
       return (
         <Link to="/">
           <p>LOGO</p>

@@ -33,7 +33,7 @@ function ListRow({
 }
 
 const listRowContainerStyles = css`
-  padding: 8px 24px;
+  padding: 8px 16px;
 `;
 
 const listRowLeftStyles = css`

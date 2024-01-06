@@ -1,11 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { css } from "@emotion/react";
-
 import useComments from "./hooks/useComments";
-
 import Spacing from "@shared/Spacing";
 
-import useUser from "@/hooks/auth/useUser";
 import CommentBox from "./CommentBox";
 import Form from "./Form";
 
@@ -22,7 +19,7 @@ function Comment({ momentId }: { momentId: string }) {
     return (
       <ul>
         {comments?.map((comment) => (
-          <CommentBox comment={comment} momentId={momentId} />
+          <CommentBox comment={comment} momentId={momentId} key={comment.id} />
         ))}
       </ul>
     );

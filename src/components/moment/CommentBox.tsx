@@ -8,8 +8,8 @@ import Spacing from "../shared/Spacing";
 import InputBox from "../shared/InputBox";
 import { ChangeEvent, useState } from "react";
 import useComments from "./hooks/useComments";
-import { CommentWithUser, User } from "@/models/user";
-import { Comment } from "@/models/comment";
+import { CommentWithUser } from "@/models/user";
+import ProfileImage from "../shared/ProfileImage";
 
 function CommentBox({
   comment,
@@ -40,11 +40,7 @@ function CommentBox({
       <Flex direction="column">
         <ListRow
           as="div"
-          left={
-            comment.user.photoURL != null ? (
-              <img src={comment.user.photoURL} width={40} />
-            ) : null
-          }
+          left={<ProfileImage />}
           contents={
             <ListRow.Texts
               title={comment.user.displayName}
