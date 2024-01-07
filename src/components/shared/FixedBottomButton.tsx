@@ -49,7 +49,7 @@ const containerStyles = css`
   right: 0;
   bottom: 0;
   background-color: ${colors.white};
-  width: 460px;
+  max-width: 460px;
   margin: auto;
   border: none;
   padding: 20px 10px 8px;

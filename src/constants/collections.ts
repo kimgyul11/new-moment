@@ -3,4 +3,6 @@ export const COLLECTIONS = {
   MOMENTS: "moment",
   LIKE: "Like",
   COMMENT: "COMMENT",
+  FOLLOWING: "following",
+  FOLLOWER: "follower",
 } as const;

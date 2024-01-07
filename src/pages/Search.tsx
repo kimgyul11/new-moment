@@ -2,6 +2,8 @@ import MomentItem from "@/components/home/MomentItem";
 import useSearch from "@/components/search/hooks/useSearch";
 import SearchBar from "@/components/shared/SearchBar";
 import Spacing from "@/components/shared/Spacing";
+import Text from "@/components/shared/Text";
+import Top from "@/components/shared/Top";
 import { css } from "@emotion/react";
 
 import { KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
@@ -29,6 +31,7 @@ function SearchPage() {
   return (
     <>
       <Spacing size={80} />
+
       <div css={wrap}>
         <SearchBar
           placeholder="검색어를 입력해주세요"
@@ -37,6 +40,7 @@ function SearchPage() {
           onKeyDown={handleKeyDown}
         />
       </div>
+
       {data && data?.length > 0 ? (
         <InfiniteScroll
           dataLength={data?.length ?? 0}

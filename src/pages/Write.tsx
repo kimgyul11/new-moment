@@ -19,6 +19,7 @@ function WritePage() {
   const [imageFile, setImageFile] = useState<string | null>(null);
   const [text, setText] = useState<string>("");
   const { write, writeIsLoading } = useMoment();
+
   const handleOnKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const { value } = e.target as HTMLInputElement;
     if (e.key === "Enter") {
@@ -102,6 +103,20 @@ function WritePage() {
         value={hashTag}
       />
       <Spacing size={8} />
+      {tags.length > 0
+        ? tags.map((tag, idx) => (
+            <Text
+              key={idx}
+              typography="t7"
+              color="gray500"
+              onClick={() => handleOnClick(tag)}
+              style={{ cursor: "pointer" }}
+            >
+              {` #${tag}`}
+            </Text>
+          ))
+        : null}
+      <Spacing size={100} />
       <FixedBottomButton
         label={writeIsLoading ? "작성중.." : "작성"}
         onClick={async () => {
@@ -117,19 +132,6 @@ function WritePage() {
         }}
         disabled={!imageFile || !text || writeIsLoading}
       />
-      {tags.length > 0
-        ? tags.map((tag, idx) => (
-            <Text
-              key={idx}
-              typography="t7"
-              color="gray500"
-              onClick={() => handleOnClick(tag)}
-              style={{ cursor: "pointer" }}
-            >
-              {` #${tag}`}
-            </Text>
-          ))
-        : null}
     </Container>
   );
 }

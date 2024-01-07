@@ -1,15 +1,15 @@
 import useUser from "@/hooks/auth/useUser";
-import Flex from "../shared/Flex";
-import ListRow from "../shared/ListRow";
-import Text from "../shared/Text";
+import Flex from "@shared/Flex";
+import ListRow from "@shared/ListRow";
+import Text from "@shared/Text";
 import { css } from "@emotion/react";
-import Button from "../shared/Button";
-import Spacing from "../shared/Spacing";
-import InputBox from "../shared/InputBox";
+import Button from "@shared/Button";
+import Spacing from "@shared/Spacing";
+import InputBox from "@shared/InputBox";
 import { ChangeEvent, useState } from "react";
 import useComments from "./hooks/useComments";
 import { CommentWithUser } from "@/models/user";
-import ProfileImage from "../shared/ProfileImage";
+import ProfileImage from "@shared/ProfileImage";
 
 function CommentBox({
   comment,
@@ -124,7 +124,7 @@ const cursorPointer = css`
   cursor: pointer;
 `;
 const contentStyles = css`
-  padding: 4px 32px;
+  padding: 4px 20px;
 `;
 
 export default CommentBox;

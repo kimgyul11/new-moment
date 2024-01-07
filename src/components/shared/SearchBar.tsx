@@ -5,8 +5,8 @@ const SearchBar = styled.input`
   width: 100%;
   height: 44px;
   font-weight: 500;
-  border: none;
-  border-radius: 15px;
+  border: 1px solid ${colors.gray300};
+  border-radius: 999px;
   padding: 0 16px;
   box-sizing: border-box;
   &::placeholder {

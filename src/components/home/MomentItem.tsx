@@ -22,7 +22,6 @@ function MomentItem({ moment }: { moment: Moment }) {
     getLikes({ momentId: moment.id })
   );
   const { id } = useParams();
-  console.log(id);
 
   //getComments, getLikes
   const { data } = useGetProfile({ userId: moment.userId });
