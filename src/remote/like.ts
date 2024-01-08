@@ -1,30 +1,49 @@
-//like 가져오기
-
 import { COLLECTIONS } from "@/constants/collections";
 import {
-  collection,
+  arrayRemove,
+  arrayUnion,
   doc,
   getDoc,
-  getDocs,
-  query,
-  where,
+  updateDoc,
 } from "firebase/firestore";
 import { store } from "./firebase";
+import { Moment } from "@/models/moment";
 
-//user가 like를 눌렀는지 확인.
-export async function getLikes({ momentId }: { momentId: string }) {
-  const momentRef = doc(store, COLLECTIONS.MOMENTS, momentId);
-  const likeQuery = query(
-    collection(momentRef, COLLECTIONS.LIKE),
-    where("momentId", "==", momentId)
-  );
+export async function getLike({ momentId }: { momentId: string }) {
+  const likeRef = doc(store, COLLECTIONS.MOMENTS, momentId);
+  const snapshot = await getDoc(likeRef);
 
-  const snapshot = await getDocs(likeQuery);
-  const likes = snapshot.docs.map((doc) => ({
-    ...doc.data(),
-  }));
-
-  return likes;
+  return snapshot.data() as Moment;
 }
 
-//likeToggle
+export async function removeLike({
+  userId,
+  momentId,
+  likeCount,
+}: {
+  userId: string;
+  momentId: string;
+  likeCount: number;
+}) {
+  const momentRef = doc(store, COLLECTIONS.MOMENTS, momentId);
+  await updateDoc(momentRef, {
+    likes: arrayRemove(userId),
+    likeCount: likeCount > 0 ? likeCount - 1 : 0,
+  });
+}
+
+export async function addLike({
+  userId,
+  momentId,
+  likeCount,
+}: {
+  userId: string;
+  momentId: string;
+  likeCount: number;
+}) {
+  const momentRef = doc(store, COLLECTIONS.MOMENTS, momentId);
+  await updateDoc(momentRef, {
+    likes: arrayUnion(userId),
+    likeCount: likeCount === 0 ? 1 : likeCount + 1,
+  });
+}

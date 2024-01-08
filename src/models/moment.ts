@@ -5,4 +5,6 @@ export interface Moment {
   image: string;
   userId: string;
   text: string;
+  likes?: string[];
+  likeCount?: number;
 }

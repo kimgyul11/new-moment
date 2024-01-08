@@ -1,15 +1,12 @@
 import useMoment from "@hooks/moment/useMoment";
 import useUser from "@hooks/auth/useUser";
 import Flex from "@shared/Flex";
-import Spacing from "@shared/Spacing";
-import Text from "@shared/Text";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { Moment } from "@/models/moment";
 import styled from "@emotion/styled";
 import { Colors, colors } from "@/styles/colorPalette";
-import { css } from "@emotion/react";
-import { color } from "framer-motion";
+import Like from "./Like";
 
 function ActionButton({ moment }: { moment: Moment }) {
   const user = useUser();
@@ -40,12 +37,12 @@ function ActionButton({ moment }: { moment: Moment }) {
       ) : (
         <Flex></Flex>
       )}
-      <Flex>
+      <Flex align="center">
         <Button
           color="blue"
           iconUrl="https://cdn0.iconfinder.com/data/icons/essentials-9/128/__Message-512.png"
         ></Button>
-        <Button iconUrl="https://cdn0.iconfinder.com/data/icons/essentials-9/128/__Message-512.png"></Button>
+        <Like momentId={moment.id} />
       </Flex>
     </Flex>
   );

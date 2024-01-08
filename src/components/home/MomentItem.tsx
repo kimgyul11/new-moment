@@ -11,14 +11,11 @@ import { Link, useParams } from "react-router-dom";
 import { Moment } from "@/models/moment";
 import { Fragment } from "react";
 
-import { getLikes } from "@/remote/like";
-import { useQuery } from "react-query";
 import ActionButton from "../moment/ActionButton";
 import ListRow from "../shared/ListRow";
 import FollowingButton from "../moment/FollowingButton";
 
 function MomentItem({ moment }: { moment: Moment }) {
-  //getComments, getLikes
   const { data } = useGetProfile({ userId: moment.userId });
 
   return (

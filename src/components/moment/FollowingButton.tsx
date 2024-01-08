@@ -5,7 +5,7 @@ function FollowingButton({ momentWriter }: { momentWriter: string }) {
   const { data, isLoading, follow, unFollow } = useFollow({ momentWriter });
   const user = useUser();
 
-  //로그인이 안되있거나 , 로그인 유저가 모멘트 작성자와 같으면 null
+  //로그인이 안되있거나 , 로그인 유저가 모멘트 작성자와 같으면 아무것도 표시하지 않는다.
   if (!user || momentWriter === user?.uid) {
     return null;
   }
