@@ -1,4 +1,11 @@
-import { arrayUnion, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { store } from "./firebase";
 import { COLLECTIONS } from "@/constants/collections";
 
@@ -28,9 +35,29 @@ export async function followingAction({
 }
 
 //팔로워 조회
-export async function getFollowers(momentWriter: string) {
+export async function getFollowers({ momentWriter }: { momentWriter: string }) {
   const FollowerRef = doc(store, COLLECTIONS.FOLLOWER, momentWriter);
   const snapshot = await getDoc(FollowerRef);
 
   return snapshot.data();
+}
+
+//팔로잉 취소
+export async function cancleFollowing({
+  userId,
+  followingId,
+}: {
+  userId: string;
+  followingId: string;
+}) {
+  //1.following 컬렉션에서 팔로잉하는 유저 삭제
+  const followingRef = doc(store, COLLECTIONS.FOLLOWING, userId);
+  await updateDoc(followingRef, {
+    users: arrayRemove({ id: followingId }),
+  });
+  //2.follower 컬렉션에서 팔로우하는 유저 삭제
+  const followerRef = doc(store, COLLECTIONS.FOLLOWER, followingId);
+  await updateDoc(followerRef, {
+    users: arrayRemove({ id: userId }),
+  });
 }

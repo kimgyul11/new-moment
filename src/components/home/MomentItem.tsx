@@ -15,14 +15,9 @@ import { getLikes } from "@/remote/like";
 import { useQuery } from "react-query";
 import ActionButton from "../moment/ActionButton";
 import ListRow from "../shared/ListRow";
+import FollowingButton from "../moment/FollowingButton";
 
 function MomentItem({ moment }: { moment: Moment }) {
-  //여기서 momentId를 받고 이것을 통해서 Like와 Comment 컬렉션 가져오기
-  const { data: likes } = useQuery(["likes", moment.id], () =>
-    getLikes({ momentId: moment.id })
-  );
-  const { id } = useParams();
-
   //getComments, getLikes
   const { data } = useGetProfile({ userId: moment.userId });
 
@@ -40,7 +35,7 @@ function MomentItem({ moment }: { moment: Moment }) {
             />
           }
         />
-        <p>친구추가</p>
+        <FollowingButton momentWriter={moment.userId} />
       </Flex>
 
       <Spacing size={8} />
