@@ -4,9 +4,11 @@ import Flex from "@shared/Flex";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { Moment } from "@/models/moment";
-import styled from "@emotion/styled";
-import { Colors, colors } from "@/styles/colorPalette";
-import Like from "./Like";
+
+import LikeButton from "./Like";
+import CommentButton from "./CommentButton";
+import Spacing from "../shared/Spacing";
+import IconButton from "../shared/IconButton";
 
 function ActionButton({ moment }: { moment: Moment }) {
   const user = useUser();
@@ -18,7 +20,10 @@ function ActionButton({ moment }: { moment: Moment }) {
     <Flex justify="space-between">
       {user?.uid === moment.userId ? (
         <Flex>
-          <Button
+          <IconButton
+            iconUrl="https://cdn2.iconfinder.com/data/icons/app-user-interface-6/48/Trash-512.png"
+            color="red"
+            text="삭제"
             onClick={() => {
               const ok = window.confirm("정말 삭제하시겠습니까?");
               if (!ok) return;
@@ -29,8 +34,12 @@ function ActionButton({ moment }: { moment: Moment }) {
                 navigate("/", { replace: true });
               }
             }}
-            iconUrl="https://cdn2.iconfinder.com/data/icons/app-user-interface-6/48/Trash-512.png"
-            color="red100"
+          />
+          <Spacing size={6} direction="horizontal" />
+          <IconButton
+            iconUrl="https://cdn3.iconfinder.com/data/icons/feather-5/24/edit-3-512.png"
+            text="수정"
+            color="black"
           />
           {/* <Button>수정</Button> */}
         </Flex>
@@ -38,47 +47,12 @@ function ActionButton({ moment }: { moment: Moment }) {
         <Flex></Flex>
       )}
       <Flex align="center">
-        <Button
-          color="blue"
-          iconUrl="https://cdn0.iconfinder.com/data/icons/essentials-9/128/__Message-512.png"
-        ></Button>
-        <Like momentId={moment.id} />
+        <CommentButton momentId={moment.id} />
+        <Spacing size={6} direction="horizontal" />
+        <LikeButton momentId={moment.id} />
       </Flex>
     </Flex>
   );
 }
-
-function Button({
-  color,
-  iconUrl,
-  onClick,
-}: {
-  color?: Colors;
-  iconUrl: string;
-  onClick?: () => void;
-}) {
-  return (
-    <ButtonContainer onClick={onClick} color={color || "gray200"}>
-      <img src={iconUrl} alt="" />
-    </ButtonContainer>
-  );
-}
-
-const ButtonContainer = styled.div`
-  cursor: pointer;
-  background-color: ${(props: { color: Colors }) =>
-    props.color || "transparent"};
-  border: 1px solid ${colors.gray300};
-  display: flex;
-  border-radius: 999px;
-  padding: 5px;
-  overflow: hidden;
-
-  img {
-    object-fit: contain;
-    width: 15px;
-    height: 15px;
-  }
-`;
 
 export default ActionButton;

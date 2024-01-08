@@ -2,6 +2,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getCountFromServer,
   getDoc,
   getDocs,
   orderBy,
@@ -41,7 +42,7 @@ export async function getComments({ momentId }: { momentId: string }) {
   } = {};
 
   //4-2.Comment,User를 갖는 결과 배열을 정의
-  const results: Array<Comment & { user: User }> = [];
+  const results: Array<Comment & { user: User; count?: number }> = [];
 
   //4-3for of를 돌면서 체크
   for (let comment of comments) {
@@ -115,4 +116,13 @@ export function updateComment({
   return updateDoc(commentRef, {
     content: newComment,
   });
+}
+
+//Comment count
+export async function countComment({ momentId }: { momentId: string }) {
+  const momentRef = doc(store, COLLECTIONS.MOMENTS, momentId);
+  const countRef = collection(momentRef, COLLECTIONS.COMMENT);
+  const countSnapshot = await getCountFromServer(countRef);
+  const commentCount = countSnapshot.data().count;
+  return commentCount;
 }

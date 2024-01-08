@@ -3,7 +3,6 @@ import { addLike, getLike, removeLike } from "@/remote/like";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 function useLike({ momentId }: { momentId: string }) {
-  console.log(momentId);
   const client = useQueryClient();
   const user = useUser();
   const { data: moment, isLoading } = useQuery(["likes", momentId], () =>
