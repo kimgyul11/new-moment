@@ -40,8 +40,8 @@ function ActionButton({ moment }: { moment: Moment }) {
             iconUrl="https://cdn3.iconfinder.com/data/icons/feather-5/24/edit-3-512.png"
             text="수정"
             color="black"
+            onClick={() => navigate(`/moments/edit/${moment.id}`)}
           />
-          {/* <Button>수정</Button> */}
         </Flex>
       ) : (
         <Flex></Flex>

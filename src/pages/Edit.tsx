@@ -1,49 +1,44 @@
-import FixedBottomButton from "@shared/FixedBottomButton";
-import Flex from "@shared/Flex";
-import Input from "@shared/Input";
-import InputBox from "@shared/InputBox";
-import Spacing from "@shared/Spacing";
-import Text from "@shared/Text";
-import Top from "@shared/Top";
+import FixedBottomButton from "@/components/shared/FixedBottomButton";
+import Flex from "@/components/shared/Flex";
+import Input from "@/components/shared/Input";
+import InputBox from "@/components/shared/InputBox";
+import Spacing from "@/components/shared/Spacing";
+import Text from "@/components/shared/Text";
+import Top from "@/components/shared/Top";
+import useMoment from "@/hooks/moment/useMoment";
+import { getMoment } from "@/remote/moment";
 import { colors } from "@/styles/colorPalette";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useState } from "react";
-import useMoment from "@/hooks/moment/useMoment";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
 
-function WritePage() {
-  const navigate = useNavigate();
+function Edit() {
   const [tags, setTags] = useState<string[]>([]);
   const [hashTag, setHashTag] = useState<string>("");
   const [imageFile, setImageFile] = useState<string | null>(null);
   const [text, setText] = useState<string>("");
-  const { write, writeIsLoading } = useMoment();
+  const params = useParams();
+  const navigate = useNavigate();
+  const { data: moment, isLoading } = useQuery(["moment", params.id], () =>
+    getMoment(params.id as string)
+  );
 
-  const handleOnKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const { value } = e.target as HTMLInputElement;
-    if (e.key === "Enter") {
-      if (
-        value === "" ||
-        value.trim().length === 0 ||
-        tags.includes(value.trim())
-      ) {
-        setHashTag("");
-      } else {
-        const uniqueTags = Array.from(new Set([...tags, value.trim()]));
-        setTags(uniqueTags);
-        setHashTag("");
-      }
-    }
-  };
+  const { update } = useMoment();
+  const setData = useCallback(() => {
+    setTags(moment?.hashTag || []);
+    setImageFile(moment?.image as string);
+    setText(moment?.text as string);
+  }, [moment]);
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHashTag(e.target.value);
-  };
-  const handleOnClick = (tag: any) => {
-    setTags(tags.filter((val) => val !== tag));
-  };
+  useEffect(() => {
+    setData();
+  }, [setData]);
 
+  if (isLoading) {
+    return null;
+  }
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { files },
@@ -65,10 +60,32 @@ function WritePage() {
   const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
+  const handleOnKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const { value } = e.target as HTMLInputElement;
+    if (e.key === "Enter") {
+      if (
+        value === "" ||
+        value.trim().length === 0 ||
+        tags.includes(value.trim())
+      ) {
+        setHashTag("");
+      } else {
+        const uniqueTags = Array.from(new Set([...tags, value.trim()]));
+        setTags(uniqueTags);
+        setHashTag("");
+      }
+    }
+  };
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setHashTag(e.target.value);
+  };
+  const handleOnClick = (tag: any) => {
+    setTags(tags.filter((val) => val !== tag));
+  };
+
   return (
     <Container>
-      <Top title="기록하기" subTitle="순간을 기록해보세요" />
-      {/* 이미지영역 */}
+      <Top title="수정하기" subTitle="수정할 내용을 입력해주세요" />
       <Flex css={imgStyles} justify="center" align="center">
         <input
           id="file"
@@ -86,15 +103,13 @@ function WritePage() {
         )}
       </Flex>
       <Spacing size={16} />
-      {/* 본문 영역 */}
       <InputBox
         height="120px"
         placeholder="내용을 입력해주세요"
+        value={text}
         onChange={handleChangeText}
       />
       <Spacing size={16} />
-
-      {/* 태그 영역 */}
       <Input
         placeholder="#️ 해시태그를 입력 후 엔터키를 눌러주세요"
         onKeyUp={handleOnKeyUp}
@@ -115,30 +130,28 @@ function WritePage() {
             </Text>
           ))
         : null}
-      <Spacing size={100} />
       <FixedBottomButton
-        label={writeIsLoading ? "작성중.." : "작성"}
-        onClick={async () => {
-          if (!imageFile || !text) return;
-          const success = await write({
-            image: imageFile,
+        label={"수정하기"}
+        onClick={() => {
+          let momentObj = {
+            id: moment?.id as string,
             text,
             hashTag: tags,
-          });
-          if (success === true) {
-            navigate("/", { replace: true });
-          }
+            image: imageFile as string,
+            userId: moment?.userId as string,
+          };
+          let isNotUpdated = imageFile === moment?.image;
+          update({ momentObj, isNotUpdated });
+          navigate(`/moments/${moment?.id}`);
         }}
-        disabled={!imageFile || !text || writeIsLoading}
+        disabled={!imageFile || !text}
       />
     </Container>
   );
 }
-
 const Container = styled.div`
   padding: 70px 16px 0px 16px;
 `;
-
 const imgStyles = css`
   position: relative;
   width: 100%;
@@ -160,5 +173,4 @@ const imgStyles = css`
     object-fit: contain;
   }
 `;
-
-export default WritePage;
+export default Edit;

@@ -19,7 +19,9 @@ function MyPage() {
       <Top title="나의정보" subTitle="프로필을 수정할 수 있습니다."></Top>
       <Flex justify="center" direction="column" align="center">
         <ProfileImage size={160} mode="upload" />
+        <Spacing size={12} />
         <Input defaultValue={user?.displayName} />
+        <Spacing size={12} />
         <Button size="medium" color="error" onClick={handleLogout}>
           로그아웃
         </Button>

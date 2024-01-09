@@ -11,6 +11,7 @@ import MomentPage from "@/pages/Moment";
 import SearchPage from "@/pages/Search";
 import WritePage from "@/pages/Write";
 import NotificationPage from "@/pages/Notification";
+import Edit from "@/pages/Edit";
 
 function Router() {
   return (
@@ -24,6 +25,7 @@ function Router() {
             <Route path="/signin" element={<SigninPage />} />
             <Route path="/my" element={<MyPage />} />
             <Route path="/moments/:id" element={<MomentPage />} />
+            <Route path="/moments/edit/:id" element={<Edit />} />
             <Route path="/write" element={<WritePage />} />
             <Route path="/notification" element={<NotificationPage />} />
             <Route path="/search" element={<SearchPage />} />

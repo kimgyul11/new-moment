@@ -90,15 +90,10 @@ export async function getSearchMoment(
   return { items, lastVisible };
 }
 
-//Moment comment와 like 조회
+//Moment조회
 export async function getMoment(id: string) {
   const momentRef = doc(store, COLLECTIONS.MOMENTS, id);
-  const commentRef = collection(momentRef, COLLECTIONS.COMMENT);
-  const count = await getCountFromServer(commentRef);
-
   const snapshot = await getDoc(momentRef);
-  const commentCount = count.data().count;
-
   const momentData = {
     id,
     ...snapshot.data(),
@@ -106,7 +101,6 @@ export async function getMoment(id: string) {
 
   return {
     ...momentData,
-    commentCount,
   };
 }
 
@@ -161,4 +155,40 @@ export async function removeMoment({
   const imageRef = ref(storage, `moment/${userId}/${momentId}`);
   await deleteObject(imageRef);
   return deleteDoc(momentRef);
+}
+
+//moment 수정
+export async function updateMoment({
+  momentObj,
+  isNotUpdated,
+}: {
+  momentObj: Pick<Moment, "text" | "image" | "hashTag" | "id" | "userId">;
+  isNotUpdated: boolean;
+}) {
+  const momentRef = doc(store, COLLECTIONS.MOMENTS, momentObj.id);
+  const imageRef = ref(storage, `moment/${momentObj.userId}/${momentObj.id}`);
+
+  //이미지 변경되었을 경우 삭제후 재 업로드
+  if (!isNotUpdated) {
+    await deleteObject(imageRef);
+    const storageRef = ref(
+      storage,
+      `moment/${momentObj.userId}/${momentObj.id}`
+    );
+    const imageUrl = await uploadString(
+      storageRef,
+      momentObj.image,
+      "data_url"
+    );
+    const downloadUrl = await getDownloadURL(imageUrl.ref);
+
+    await updateDoc(momentRef, {
+      image: downloadUrl,
+    });
+  }
+
+  await updateDoc(momentRef, {
+    text: momentObj.text,
+    hashTag: momentObj.hashTag,
+  });
 }

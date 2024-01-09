@@ -6,6 +6,9 @@ import FixedBottomBar from "@/components/shared/FixedBottomBar";
 import styled from "@emotion/styled";
 
 function Home() {
+  // 친구의 moment, 좋아요한 moment, 모든 moment
+  //1.defalut = all
+  //
   return (
     <Container>
       <Spacing size={80} backgroundColor="gray200" />
@@ -18,7 +21,7 @@ function Home() {
       <Spacing size={12} backgroundColor="gray200" />
       <Top
         title="최신 모멘트📸"
-        subTitle="지금 올라온 일상의 순간들을 확인해보세요!"
+        subTitle="최근에 올라온 일상의 순간들을 확인해보세요!"
       />
       <Spacing size={12} backgroundColor="gray200" />
       <MomentList />

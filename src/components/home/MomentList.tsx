@@ -3,12 +3,7 @@ import useMoments from "./hooks/useMoments";
 import MomentItem from "./MomentItem";
 
 function MomentList() {
-  //리코일로 상태를 관리
-
-  //default
   const { data: moments, hasNextPage, loadMore } = useMoments();
-
-  //만약 좋아요라면?
 
   return (
     <InfiniteScroll

@@ -1,8 +1,7 @@
 import { getSearchMoment } from "@/remote/moment";
-import { useInfiniteQuery, useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 
 function useSearch(searchValue: string) {
-  console.log(searchValue);
   const {
     data,
     isFetching,

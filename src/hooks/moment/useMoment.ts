@@ -1,5 +1,5 @@
 import { Moment } from "@/models/moment";
-import { removeMoment, writeMoment } from "@/remote/moment";
+import { removeMoment, updateMoment, writeMoment } from "@/remote/moment";
 import { useMutation, useQueryClient } from "react-query";
 import useUser from "@hooks/auth/useUser";
 
@@ -41,9 +41,23 @@ function useMoment() {
     }
   );
 
-  //select Moment where(Like가 제일 많은 순)
+  //update
+  const { mutate: update } = useMutation(
+    ({
+      momentObj,
+      isNotUpdated,
+    }: {
+      momentObj: Pick<Moment, "text" | "image" | "hashTag" | "id" | "userId">;
+      isNotUpdated: boolean;
+    }) => updateMoment({ momentObj, isNotUpdated }),
+    {
+      onSuccess: (_, variables) => {
+        client.invalidateQueries(["moment", variables.momentObj.id]);
+      },
+    }
+  );
 
-  return { write, writeIsLoading, remove };
+  return { write, writeIsLoading, remove, update };
 }
 
 export default useMoment;
