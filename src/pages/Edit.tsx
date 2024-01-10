@@ -142,7 +142,7 @@ function Edit() {
           };
           let isNotUpdated = imageFile === moment?.image;
           update({ momentObj, isNotUpdated });
-          navigate(`/moments/${moment?.id}`);
+          navigate(`/moments/${moment?.id}`, { replace: true });
         }}
         disabled={!imageFile || !text}
       />

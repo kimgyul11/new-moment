@@ -1,3 +1,4 @@
+import useUser from "@/hooks/auth/useUser";
 import {
   cancleFollowing,
   followingAction,
@@ -7,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 function useFollow({ momentWriter }: { momentWriter: string }) {
   const client = useQueryClient();
-
+  const user = useUser();
   //팔로우 조회
   const { data, isLoading } = useQuery(["follower", momentWriter], () =>
     getFollowers({ momentWriter })
@@ -28,6 +29,7 @@ function useFollow({ momentWriter }: { momentWriter: string }) {
     {
       onSuccess: () => {
         client.invalidateQueries(["follower", momentWriter]);
+        client.invalidateQueries(["followingIds", user?.uid]);
       },
     }
   );
@@ -42,6 +44,7 @@ function useFollow({ momentWriter }: { momentWriter: string }) {
     {
       onSuccess: () => {
         client.invalidateQueries(["follower", momentWriter]);
+        client.invalidateQueries(["followingIds", user?.uid]);
       },
     }
   );

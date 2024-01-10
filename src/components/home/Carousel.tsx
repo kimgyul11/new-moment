@@ -7,9 +7,11 @@ import { colors } from "@/styles/colorPalette";
 
 import "swiper/css";
 import "swiper/css/pagination";
+import { Moment } from "@/models/moment";
 
 function Carousel() {
   const { data } = useBestMoment();
+
   const pagination = {
     clickable: true,
     renderBullet: function (index: number, className: string) {

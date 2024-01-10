@@ -40,7 +40,6 @@ export async function getMoments(pageParams?: QuerySnapshot<Moment>) {
           startAfter(pageParams),
           limit(5)
         );
-
   //2.가져온 데이터를 꺼내온다.
   const momentsSnapshot = await getDocs(momentQuery);
   const items = momentsSnapshot.docs.map(
@@ -52,6 +51,78 @@ export async function getMoments(pageParams?: QuerySnapshot<Moment>) {
   );
 
   //3. 마지막 페이지를 알려준다.
+  const lastVisible = momentsSnapshot.docs[momentsSnapshot.docs.length - 1];
+
+  return {
+    items,
+    lastVisible,
+  };
+}
+export async function getLikeMoments(
+  userId: string,
+  pageParams?: QuerySnapshot<Moment>
+) {
+  const momentQuery =
+    pageParams == null
+      ? query(
+          collection(store, COLLECTIONS.MOMENTS),
+          where("likes", "array-contains", userId),
+          orderBy("createdAt", "desc"),
+          limit(5)
+        )
+      : query(
+          collection(store, COLLECTIONS.MOMENTS),
+          where("likes", "array-contains", userId),
+          orderBy("createdAt", "desc"),
+          startAfter(pageParams),
+          limit(5)
+        );
+
+  const momentsSnapshot = await getDocs(momentQuery);
+  const items = momentsSnapshot.docs.map(
+    (doc) =>
+      ({
+        id: doc.id,
+        ...doc.data(),
+      } as Moment)
+  );
+
+  const lastVisible = momentsSnapshot.docs[momentsSnapshot.docs.length - 1];
+
+  return {
+    items,
+    lastVisible,
+  };
+}
+
+export async function getFollowingMoments(
+  followingIds: string[],
+  pageParams?: QuerySnapshot<Moment>
+) {
+  const momentQuery =
+    pageParams == null
+      ? query(
+          collection(store, COLLECTIONS.MOMENTS),
+          where("userId", "in", followingIds),
+          orderBy("createdAt", "desc"),
+          limit(5)
+        )
+      : query(
+          collection(store, COLLECTIONS.MOMENTS),
+          where("userId", "in", followingIds),
+          orderBy("createdAt", "desc"),
+          startAfter(pageParams),
+          limit(5)
+        );
+  const momentsSnapshot = await getDocs(momentQuery);
+  const items = momentsSnapshot.docs.map(
+    (doc) =>
+      ({
+        id: doc.id,
+        ...doc.data(),
+      } as Moment)
+  );
+
   const lastVisible = momentsSnapshot.docs[momentsSnapshot.docs.length - 1];
 
   return {
@@ -104,7 +175,7 @@ export async function getMoment(id: string) {
   };
 }
 
-//BestMoments 조회 -- 수정필요
+//BestMoments
 export async function getBestMoment() {
   const snpashotQuery = query(
     collection(store, COLLECTIONS.MOMENTS),
@@ -112,10 +183,13 @@ export async function getBestMoment() {
     limit(8)
   );
   const snapshot = await getDocs(snpashotQuery);
-  const items = snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+  const items = snapshot.docs.map(
+    (doc) =>
+      ({
+        id: doc.id,
+        ...doc.data(),
+      } as Moment)
+  );
   return items;
 }
 

@@ -6,9 +6,6 @@ import FixedBottomBar from "@/components/shared/FixedBottomBar";
 import styled from "@emotion/styled";
 
 function Home() {
-  // 친구의 moment, 좋아요한 moment, 모든 moment
-  //1.defalut = all
-  //
   return (
     <Container>
       <Spacing size={80} backgroundColor="gray200" />

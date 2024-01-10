@@ -1,4 +1,4 @@
-import { getMoment, getMoments } from "@/remote/moment";
+import { getMoments } from "@/remote/moment";
 import { useInfiniteQuery } from "react-query";
 
 function useMoments() {

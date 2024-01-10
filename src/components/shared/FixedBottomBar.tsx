@@ -1,24 +1,13 @@
 import styled from "@emotion/styled";
 import Flex from "./Flex";
-import Button from "./Button";
 import { css } from "@emotion/react";
 import { colors } from "@/styles/colorPalette";
 import { motion } from "framer-motion";
-import { MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 function FixedBottomBar() {
   const navigate = useNavigate();
-  type CustomMouseEvent = MouseEvent<HTMLImageElement>;
-  const handleOnClick = (e: CustomMouseEvent) => {
-    const target = e.target as HTMLImageElement;
-    if (target.id === "write") {
-      navigate("/write");
-    }
-    if (target.id === "notification") {
-      navigate("/notification");
-    }
-  };
+
   return (
     <Container
       initial={{ translateY: 100 }}
@@ -27,27 +16,24 @@ function FixedBottomBar() {
     >
       <Flex css={ButtonGroupStyle} justify="space-between" align="center">
         <img
-          id="target"
           src="https://cdn3.iconfinder.com/data/icons/social-media-2125/70/follow-512.png"
           alt="친구의 게시물"
-          onClick={handleOnClick}
+          onClick={() => navigate("/following")}
         />
         <img
           src="https://cdn3.iconfinder.com/data/icons/valenticons-2/64/valenticons-06-512.png"
           alt="좋아요한 게시물"
-          onClick={handleOnClick}
+          onClick={() => navigate("/like")}
         />
         <img
-          id="notification"
           src="https://cdn3.iconfinder.com/data/icons/userinterface-1/100/ui-02-512.png"
           alt="알림"
-          onClick={handleOnClick}
+          onClick={() => navigate("/notification")}
         />
         <img
-          id="write"
           src="https://cdn3.iconfinder.com/data/icons/office-485/100/ICON_BASIC-15-512.png"
           alt="모멘트 작성하기"
-          onClick={handleOnClick}
+          onClick={() => navigate("/write")}
         />
       </Flex>
     </Container>

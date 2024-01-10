@@ -61,3 +61,19 @@ export async function cancleFollowing({
     users: arrayRemove({ id: userId }),
   });
 }
+
+//팔로잉 목록 가져오기
+export async function getFollowingIds({
+  userId,
+}: {
+  userId: string | undefined;
+}) {
+  if (!userId) return [""];
+  const ref = doc(store, COLLECTIONS.FOLLOWING, userId);
+  const snapshot = await getDoc(ref);
+  const result: string[] = [];
+  if (snapshot.data()?.users.length > 0) {
+    snapshot.data()?.users.map((user: { id: string }) => result.push(user.id));
+  }
+  return result;
+}

@@ -12,6 +12,9 @@ import SearchPage from "@/pages/Search";
 import WritePage from "@/pages/Write";
 import NotificationPage from "@/pages/Notification";
 import Edit from "@/pages/Edit";
+import PrivateRoute from "../auth/PrivateRoute";
+import LikePage from "@/pages/Like";
+import FollowingPage from "@/pages/Following";
 
 function Router() {
   return (
@@ -23,13 +26,17 @@ function Router() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/signin" element={<SigninPage />} />
-            <Route path="/my" element={<MyPage />} />
             <Route path="/moments/:id" element={<MomentPage />} />
-            <Route path="/moments/edit/:id" element={<Edit />} />
-            <Route path="/write" element={<WritePage />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/write" element={<WritePage />} />
+              <Route path="/my" element={<MyPage />} />
+              <Route path="/moments/edit/:id" element={<Edit />} />
+            </Route>
             <Route path="/notification" element={<NotificationPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/search/:id" element={<SearchPage />} />
+            <Route path="/like" element={<LikePage />} />
+            <Route path="/following" element={<FollowingPage />} />
           </Route>
         </Routes>
       </AuthGuard>
