@@ -3,7 +3,8 @@ import styled from "@emotion/styled";
 
 const SearchBar = styled.input`
   width: 100%;
-  height: 44px;
+  max-width: 200px;
+  height: 34px;
   font-weight: 500;
   border: 1px solid ${colors.gray300};
   border-radius: 999px;

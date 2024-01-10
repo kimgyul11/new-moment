@@ -13,7 +13,7 @@ function Layout() {
 const Container = styled.div`
   max-width: 480px;
   margin: auto;
-  min-height: 100vh;
+
   background-color: ${colors.white};
 `;
 export default Layout;

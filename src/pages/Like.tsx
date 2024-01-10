@@ -8,9 +8,9 @@ function LikePage() {
   const user = useUser();
   return (
     <div>
-      <Spacing size={80} backgroundColor="gray200" />
-      <Top title="저장한 모멘트❤️" subTitle="좋아요한 모멘트를 확인해보세요!" />
-      <Spacing size={12} backgroundColor="gray200" />
+      <Spacing size={68} backgroundColor="gray200" />
+      <Top title="관심있는 순간" subTitle="좋아요한 모멘트를 확인해보세요!" />
+      <Spacing size={4} backgroundColor="gray200" />
       {user ? (
         <LikeMomentList userId={user.uid} />
       ) : (

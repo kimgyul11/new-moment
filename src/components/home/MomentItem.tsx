@@ -4,16 +4,18 @@ import Flex from "@shared/Flex";
 import Text from "@shared/Text";
 import Spacing from "@shared/Spacing";
 import { colors } from "@styles/colorPalette";
-import ProfileImage from "../shared/ProfileImage";
+import ProfileImage from "@shared/ProfileImage";
 import { useGetProfile } from "@/hooks/auth/useGetProfile";
 
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Moment } from "@/models/moment";
 import { Fragment } from "react";
 
 import ActionButton from "../moment/ActionButton";
-import ListRow from "../shared/ListRow";
 import FollowingButton from "../moment/FollowingButton";
+import ListRow from "@shared/ListRow";
+import { format } from "date-fns";
+import formatDate from "@/utils/formatTime";
 
 function MomentItem({ moment }: { moment: Moment }) {
   const { data } = useGetProfile({ userId: moment.userId });
@@ -28,7 +30,7 @@ function MomentItem({ moment }: { moment: Moment }) {
           contents={
             <ListRow.Texts
               title={data?.displayName}
-              subTitle={moment.createdAt}
+              subTitle={formatDate(moment.createdAt)}
             />
           }
         />
@@ -74,7 +76,7 @@ function MomentItem({ moment }: { moment: Moment }) {
 
 const containerStyle = css`
   padding: 12px 12px;
-  border-bottom: 12px solid ${colors.gray200};
+  border-bottom: 4px solid ${colors.gray200};
   list-style: none;
 `;
 const photoWrap = css`

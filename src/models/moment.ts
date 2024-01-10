@@ -1,6 +1,6 @@
 export interface Moment {
   id: string;
-  createdAt: string;
+  createdAt: Date;
   hashTag?: string[];
   image: string;
   userId: string;

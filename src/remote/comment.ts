@@ -29,9 +29,11 @@ export async function getComments({ momentId }: { momentId: string }) {
 
   //3.데이터 꺼내기
   const comments = snapshot.docs.map((doc) => {
+    const comment = doc.data();
     return {
       id: doc.id,
-      ...doc.data(),
+      ...comment,
+      createdAt: comment.createdAt.toDate() as Date,
     } as Comment;
   });
 
@@ -42,7 +44,7 @@ export async function getComments({ momentId }: { momentId: string }) {
   } = {};
 
   //4-2.Comment,User를 갖는 결과 배열을 정의
-  const results: Array<Comment & { user: User; count?: number }> = [];
+  const results: Array<Comment & { user: User }> = [];
 
   //4-3for of를 돌면서 체크
   for (let comment of comments) {

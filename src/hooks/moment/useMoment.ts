@@ -18,7 +18,7 @@ function useMoment() {
       hashTag?: string[];
     }) => {
       const newMoment = {
-        createdAt: new Date().toString(),
+        createdAt: new Date(),
         userId: user?.uid as string,
         text,
         image,

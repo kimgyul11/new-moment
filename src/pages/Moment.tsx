@@ -7,8 +7,10 @@ import { useParams } from "react-router-dom";
 
 function MomentPage() {
   const { id } = useParams() as { id: string };
-  const { data: moment, isLoading } = useQuery(["moment", id], () =>
-    getMoment(id)
+  const { data: moment, isLoading } = useQuery(
+    ["moment", id],
+    () => getMoment(id),
+    { enabled: !!id }
   );
 
   if (isLoading || moment == null) {
@@ -17,7 +19,7 @@ function MomentPage() {
 
   return (
     <div>
-      <Spacing size={56} />
+      <Spacing size={70} backgroundColor="gray200" />
       {/* 본문 */}
       <MomentItem moment={moment} />
       {/* 댓글 */}

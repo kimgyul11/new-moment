@@ -5,17 +5,33 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 import Text from "./Text";
 import useUser from "@/hooks/auth/useUser";
-import { useCallback } from "react";
+import { KeyboardEvent, useCallback, useRef } from "react";
 import Button from "./Button";
 import ProfileImage from "./ProfileImage";
+import SearchBar from "./SearchBar";
 
 function Navbar() {
   const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
   const { pathname } = useLocation();
   const user = useUser();
   const showSignButton = ["/signup", "/signin"].includes(pathname) === false;
 
   const renderTitle = useCallback(() => {
+    if (pathname === "/") {
+      return (
+        <SearchBar
+          placeholder="태그를 검색해보세요"
+          onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter") {
+              const trimmedValue = e.currentTarget.value.trim();
+              navigate(`/search/${trimmedValue}`);
+            }
+          }}
+          ref={inputRef}
+        />
+      );
+    }
     if (pathname === "/my") {
       return <Text bold={true}>마이 모멘트</Text>;
     }
@@ -27,8 +43,6 @@ function Navbar() {
     }
     if (pathname === "/notification") {
       return <Text bold={true}>알림</Text>;
-    }
-    if (pathname === "/search/:id") {
     }
   }, [pathname]);
 

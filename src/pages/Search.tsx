@@ -1,5 +1,6 @@
 import MomentItem from "@/components/home/MomentItem";
 import useSearch from "@/components/search/hooks/useSearch";
+import Flex from "@/components/shared/Flex";
 import SearchBar from "@/components/shared/SearchBar";
 import Spacing from "@/components/shared/Spacing";
 import Text from "@/components/shared/Text";
@@ -15,31 +16,40 @@ function SearchPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [search, setSearch] = useState(id);
-  const { data, hasNextPage, loadMore } = useSearch(search as string);
+  const { data, hasNextPage, loadMore, isFetching } = useSearch(
+    search as string
+  );
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") {
         const trimmedValue = e.currentTarget.value.trim();
+        if (trimmedValue === "") {
+          return;
+        }
         navigate(`/search/${trimmedValue}`);
         setSearch(id);
-        // setSearch(e.currentTarget.value);
-        // 추가로 페이지 이동 로직 등을 처리할 수 있습니다.
       }
     },
     [id, search]
   );
-  return (
-    <>
-      <Spacing size={80} />
+  useEffect(() => {
+    setSearch(id);
+  }, [id]);
 
-      <div css={wrap}>
+  return (
+    <div css={wrap}>
+      <Spacing size={100} />
+      <Flex justify="center" align="center">
         <SearchBar
           placeholder="검색어를 입력해주세요"
           defaultValue={search}
           ref={inputRef}
           onKeyDown={handleKeyDown}
         />
-      </div>
+      </Flex>
+      <Spacing size={24} />
+      <Spacing size={2} backgroundColor="gray200" />
 
       {data && data?.length > 0 ? (
         <InfiniteScroll
@@ -55,13 +65,22 @@ function SearchPage() {
             ))}
           </ul>
         </InfiniteScroll>
+      ) : id && data?.length === 0 ? (
+        <Text
+          typography="t6"
+          color="gray400"
+          display="block"
+          textAlign="center"
+        >
+          '{id}'의 검색결과가 없습니다.
+        </Text>
       ) : (
-        <p>검색어를 입력해주세요</p>
+        <p> {isFetching ? null : "검색어를 입력해주세요"}</p>
       )}
-    </>
+    </div>
   );
 }
 const wrap = css`
-  padding: 6px 18px;
+  height: 100vh;
 `;
 export default SearchPage;

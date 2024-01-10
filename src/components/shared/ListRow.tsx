@@ -53,7 +53,9 @@ function ListRowTexts({
   return (
     <Flex direction="column">
       <Text bold={true}>{title}</Text>
-      <Text typography="t7">{subTitle}</Text>
+      <Text typography="t7" color="gray400">
+        {subTitle}
+      </Text>
     </Flex>
   );
 }

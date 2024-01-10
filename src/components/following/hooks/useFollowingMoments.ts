@@ -14,6 +14,7 @@ function useFollowingMoments({ followingIds }: { followingIds: string[] }) {
       getNextPageParam: (snapshot) => {
         return snapshot?.lastVisible;
       },
+      enabled: followingIds.length > 0,
     }
   );
 

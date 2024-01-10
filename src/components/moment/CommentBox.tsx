@@ -11,6 +11,9 @@ import useComments from "./hooks/useComments";
 import { CommentWithUser } from "@/models/user";
 import ProfileImage from "@shared/ProfileImage";
 
+import { format } from "date-fns";
+import formatDate from "@/utils/formatTime";
+
 function CommentBox({
   comment,
   momentId,
@@ -44,7 +47,7 @@ function CommentBox({
           contents={
             <ListRow.Texts
               title={comment.user.displayName}
-              subTitle={comment.createdAt.toString()}
+              subTitle={formatDate(comment.createdAt)}
             />
           }
           right={

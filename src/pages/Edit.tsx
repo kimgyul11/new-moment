@@ -1,10 +1,10 @@
-import FixedBottomButton from "@/components/shared/FixedBottomButton";
-import Flex from "@/components/shared/Flex";
-import Input from "@/components/shared/Input";
-import InputBox from "@/components/shared/InputBox";
-import Spacing from "@/components/shared/Spacing";
-import Text from "@/components/shared/Text";
-import Top from "@/components/shared/Top";
+import FixedBottomButton from "@shared/FixedBottomButton";
+import Flex from "@shared/Flex";
+import Input from "@shared/Input";
+import InputBox from "@shared/InputBox";
+import Spacing from "@shared/Spacing";
+import Text from "@shared/Text";
+import Top from "@shared/Top";
 import useMoment from "@/hooks/moment/useMoment";
 import { getMoment } from "@/remote/moment";
 import { colors } from "@/styles/colorPalette";
@@ -85,6 +85,7 @@ function Edit() {
 
   return (
     <Container>
+      <Spacing size={70} />
       <Top title="수정하기" subTitle="수정할 내용을 입력해주세요" />
       <Flex css={imgStyles} justify="center" align="center">
         <input
@@ -130,6 +131,7 @@ function Edit() {
             </Text>
           ))
         : null}
+      <Spacing size={80} />
       <FixedBottomButton
         label={"수정하기"}
         onClick={() => {
@@ -150,8 +152,10 @@ function Edit() {
   );
 }
 const Container = styled.div`
-  padding: 70px 16px 0px 16px;
+  padding: 0px 16px 0px 16px;
+  min-height: 100vh;
 `;
+
 const imgStyles = css`
   position: relative;
   width: 100%;

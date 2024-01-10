@@ -3,6 +3,8 @@ import useFollowingIds from "./hooks/useFollowingIds";
 import useFollowingMoments from "./hooks/useFollowingMoments";
 import MomentItem from "../home/MomentItem";
 import Text from "../shared/Text";
+import { css } from "@emotion/react";
+import Flex from "../shared/Flex";
 
 function FollowingMomentList({ userId }: { userId: string }) {
   const { followingIds } = useFollowingIds({ userId });
@@ -10,7 +12,7 @@ function FollowingMomentList({ userId }: { userId: string }) {
     data: moments = [],
     hasNextPage = false,
     loadMore = () => {},
-  } = useFollowingMoments({ followingIds: followingIds ?? [""] });
+  } = useFollowingMoments({ followingIds: followingIds ?? [] });
 
   return (
     <InfiniteScroll
@@ -21,7 +23,11 @@ function FollowingMomentList({ userId }: { userId: string }) {
       scrollThreshold="100px"
     >
       {followingIds?.length === 0 ? (
-        <Text>팔로잉중인 유저가 없습니다.</Text>
+        <Flex justify="center" align="center" css={containerStyles}>
+          <Text textAlign="center" typography="t5" color="gray400">
+            팔로잉중인 유저가 없습니다.
+          </Text>
+        </Flex>
       ) : (
         <ul>
           {moments?.map((moment) => (
@@ -32,5 +38,9 @@ function FollowingMomentList({ userId }: { userId: string }) {
     </InfiniteScroll>
   );
 }
+const containerStyles = css`
+  height: 100%;
+  padding: 12px 0px;
+`;
 
 export default FollowingMomentList;

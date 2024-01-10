@@ -67,6 +67,7 @@ function WritePage() {
   };
   return (
     <Container>
+      <Spacing size={70} />
       <Top title="기록하기" subTitle="순간을 기록해보세요" />
       {/* 이미지영역 */}
       <Flex css={imgStyles} justify="center" align="center">
@@ -136,7 +137,8 @@ function WritePage() {
 }
 
 const Container = styled.div`
-  padding: 70px 16px 0px 16px;
+  padding: 0px 16px 0px 16px;
+  min-height: 100vh;
 `;
 
 const imgStyles = css`
