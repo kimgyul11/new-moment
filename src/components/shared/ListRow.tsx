@@ -1,8 +1,9 @@
 import Flex from "./Flex";
-import { css } from "@emotion/react";
+import { SerializedStyles, css } from "@emotion/react";
 import Text from "./Text";
 import Skeleton from "./Skeleton";
 import Spacing from "./Spacing";
+import { Typography } from "@/styles/typography";
 
 interface ListRowProps {
   left?: React.ReactNode;
@@ -11,7 +12,7 @@ interface ListRowProps {
   withArrow?: boolean;
   onClick?: () => void;
   as?: "div" | "li";
-  hover?: boolean;
+  cursor?: boolean;
 }
 
 function ListRow({
@@ -21,9 +22,15 @@ function ListRow({
   right,
   withArrow,
   onClick,
+  cursor,
 }: ListRowProps) {
   return (
-    <Flex as={as} css={listRowContainerStyles} onClick={onClick} align="center">
+    <Flex
+      as={as}
+      css={listRowContainerStyles(cursor)}
+      onClick={onClick}
+      align="center"
+    >
       <Flex css={listRowLeftStyles}>{left}</Flex>
       <Flex css={listRowContent}>{contents}</Flex>
       <Flex>{right}</Flex>
@@ -32,10 +39,13 @@ function ListRow({
   );
 }
 
-const listRowContainerStyles = css`
+const listRowContainerStyles = (hasCursor: boolean = false) => css`
+  padding: 8px 0px;
+  ${hasCursor && "cursor: pointer;"}
+`;
+const listRowSkeletonStyles = css`
   padding: 8px 0px;
 `;
-
 const listRowLeftStyles = css`
   margin-right: 14px;
 `;
@@ -46,33 +56,48 @@ const listRowContent = css`
 function ListRowTexts({
   title,
   subTitle,
+  typography,
 }: {
   title: React.ReactNode;
   subTitle: React.ReactNode;
+  typography?: Typography;
 }) {
   return (
     <Flex direction="column">
-      <Text bold={true}>{title}</Text>
+      <Text bold={true} typography={typography}>
+        {title}
+      </Text>
       <Text typography="t7" color="gray400">
         {subTitle}
       </Text>
     </Flex>
   );
 }
+interface ListRowSkeletonProps {
+  topWidth?: number;
+  topHeight?: number;
+  bottomWidth?: number;
+  bottomHeight?: number;
+}
 
-function ListRowSkeleton() {
+function ListRowSkeleton({
+  topWidth = 130,
+  topHeight = 23,
+  bottomWidth = 85,
+  bottomHeight = 20,
+}: ListRowSkeletonProps) {
   return (
-    <Flex as="li" css={listRowContainerStyles} align="center">
+    <Flex as="li" css={listRowSkeletonStyles} align="center">
       <Flex css={listRowLeftStyles}></Flex>
       <Flex css={listRowContent}>
         <ListRow.Texts
           title={
             <>
-              <Spacing size={2} />
-              <Skeleton width={67} height={23} />
+              <Spacing size={4} />
+              <Skeleton width={topWidth} height={topHeight} />
             </>
           }
-          subTitle={<Skeleton width={85} height={20} />}
+          subTitle={<Skeleton width={bottomWidth} height={bottomHeight} />}
         />
       </Flex>
       {<IconArrowRight />}

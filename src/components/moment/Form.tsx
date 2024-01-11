@@ -5,11 +5,19 @@ import Spacing from "../shared/Spacing";
 import { ChangeEvent, useState } from "react";
 import useUser from "@/hooks/auth/useUser";
 import useComments from "./hooks/useComments";
+import useNotification from "@/hooks/notification/useNotification";
 
-function Form({ momentId }: { momentId: string }) {
+function Form({
+  momentId,
+  momentAuthor,
+}: {
+  momentId: string;
+  momentAuthor: string;
+}) {
   const [content, setContent] = useState("");
   const user = useUser();
   const { write } = useComments({ momentId });
+  const { add } = useNotification();
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
@@ -31,6 +39,11 @@ function Form({ momentId }: { momentId: string }) {
       <Button
         disabled={!user || content.length === 0}
         onClick={async () => {
+          add({
+            content: `${user?.displayName}님이 게시글에 댓글을 남겼습니다.`,
+            url: `/moments/${momentId}`,
+            userId: momentAuthor,
+          });
           const success = await write(content);
           if (success === true) {
             setContent("");

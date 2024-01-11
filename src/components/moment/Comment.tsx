@@ -5,9 +5,10 @@ import Spacing from "@shared/Spacing";
 
 import CommentBox from "./CommentBox";
 import Form from "./Form";
+import { Moment } from "@/models/moment";
 
-function Comment({ momentId }: { momentId: string }) {
-  const { data: comments, isLoading } = useComments({ momentId });
+function Comment({ moment }: { moment: Moment }) {
+  const { data: comments, isLoading } = useComments({ momentId: moment.id });
   //댓글을 부모로부터 매개변수로 받는다.
   // 1.댓글 유무에 따른 렌더링
   const renderComments = useCallback(() => {
@@ -19,7 +20,7 @@ function Comment({ momentId }: { momentId: string }) {
     return (
       <ul>
         {comments?.map((comment) => (
-          <CommentBox comment={comment} momentId={momentId} key={comment.id} />
+          <CommentBox comment={comment} momentId={moment.id} key={comment.id} />
         ))}
       </ul>
     );
@@ -31,7 +32,7 @@ function Comment({ momentId }: { momentId: string }) {
 
   return (
     <div css={commentContainer}>
-      <Form momentId={momentId} />
+      <Form momentId={moment.id} momentAuthor={moment.userId} />
       <Spacing size={24} />
       {renderComments()}
     </div>

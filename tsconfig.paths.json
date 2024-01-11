@@ -6,6 +6,7 @@
       "@components/*": ["src/components/*"],
       "@constants/*": ["src/constants/*"],
       "@shared/*": ["src/components/shared/*"],
+      "@remote/*": ["src/remote/*"],
       "@hooks/*": ["src/hooks/*"],
       "@store/*": ["src/store/*"],
       "@models/*": ["src/models/*"],

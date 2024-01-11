@@ -46,6 +46,7 @@ function CommentBox({
           left={<ProfileImage />}
           contents={
             <ListRow.Texts
+              typography="t7"
               title={comment.user.displayName}
               subTitle={formatDate(comment.createdAt)}
             />
@@ -115,7 +116,9 @@ function CommentBox({
               </Button>
             </Flex>
           ) : (
-            <Text typography="t6">{comment.content}</Text>
+            <Text typography="t7" color="gray500">
+              {comment.content}
+            </Text>
           )}
         </Flex>
       </Flex>
@@ -127,7 +130,7 @@ const cursorPointer = css`
   cursor: pointer;
 `;
 const contentStyles = css`
-  padding: 4px 20px;
+  padding: 4px 8px;
 `;
 
 export default CommentBox;

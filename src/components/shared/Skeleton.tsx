@@ -18,7 +18,7 @@ const Skeleton = styled.div<{ width: number; height: number }>(
   ({ width, height }) => ({
     width,
     height,
-    backgroundColor: colors.gray,
+    backgroundColor: colors.gray300,
     animation: `${opacity} 2s ease-in-out 0.5s infinite`,
   })
 );

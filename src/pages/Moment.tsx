@@ -23,7 +23,7 @@ function MomentPage() {
       {/* 본문 */}
       <MomentItem moment={moment} />
       {/* 댓글 */}
-      <Comment momentId={moment.id} />
+      <Comment moment={moment} />
     </div>
   );
 }
