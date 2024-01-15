@@ -7,10 +7,9 @@ import { colors } from "@/styles/colorPalette";
 
 import "swiper/css";
 import "swiper/css/pagination";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function Carousel() {
-  const { data, isLoading } = useBestMoment();
-  console.log(data);
+  const { data } = useBestMoment();
   const pagination = {
     clickable: true,
     renderBullet: function (index: number, className: string) {

@@ -8,7 +8,8 @@ import { Moment } from "@/models/moment";
 
 function Comment({ moment }: { moment: Moment }) {
   const { data: comments, isLoading } = useComments({ momentId: moment.id });
-
+  if (isLoading) {
+  }
   //댓글을 부모로부터 매개변수로 받는다.
   // 1.댓글 유무에 따른 렌더링
   const renderComments = useCallback(() => {

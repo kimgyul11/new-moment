@@ -4,6 +4,7 @@
     "paths": {
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
       "@constants/*": ["src/constants/*"],
       "@shared/*": ["src/components/shared/*"],
       "@remote/*": ["src/remote/*"],

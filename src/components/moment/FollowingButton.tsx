@@ -29,21 +29,15 @@ function FollowingButton({ momentWriter }: { momentWriter: string }) {
           }
         />
       ) : (
-        <p
+        <IconButton
+          iconUrl={
+            "https://cdn3.iconfinder.com/data/icons/twitter-ui/48/jee01-26-512.png"
+          }
+          text={"팔로우"}
           onClick={() =>
             follow({ userId: user.uid, followingId: momentWriter })
           }
-        >
-          <IconButton
-            iconUrl={
-              "https://cdn3.iconfinder.com/data/icons/twitter-ui/48/jee01-26-512.png"
-            }
-            text={"팔로우"}
-            onClick={() =>
-              follow({ userId: user.uid, followingId: momentWriter })
-            }
-          />
-        </p>
+        />
       )}
     </div>
   );
