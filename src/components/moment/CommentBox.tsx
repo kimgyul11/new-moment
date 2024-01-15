@@ -11,7 +11,6 @@ import useComments from "./hooks/useComments";
 import { CommentWithUser } from "@/models/user";
 import ProfileImage from "@shared/ProfileImage";
 
-import { format } from "date-fns";
 import formatDate from "@/utils/formatTime";
 
 function CommentBox({
@@ -29,11 +28,8 @@ function CommentBox({
     commentId: "",
     isUpdate: false,
   });
-
   const { update, remove } = useComments({ momentId });
-
   const [newComment, setNewComment] = useState("");
-
   const handleNewCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setNewComment(e.target.value);
   };
@@ -43,7 +39,7 @@ function CommentBox({
       <Flex direction="column">
         <ListRow
           as="div"
-          left={<ProfileImage />}
+          left={<ProfileImage url={comment.user.photoURL} mode="moment" />}
           contents={
             <ListRow.Texts
               typography="t7"
@@ -52,7 +48,7 @@ function CommentBox({
             />
           }
           right={
-            user != null ? (
+            user?.uid === comment.user.uid ? (
               <Flex>
                 <Text
                   bold={true}

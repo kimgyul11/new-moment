@@ -32,7 +32,12 @@ function NotificationPage() {
     return notifications?.length === 0 ? (
       <>
         <Spacing size={16} />
-        <Text display="block" textAlign="center" color="gray400">
+        <Text
+          display="block"
+          textAlign="center"
+          color="gray400"
+          typography="t7"
+        >
           아무런 알림이 없습니다.
         </Text>
       </>

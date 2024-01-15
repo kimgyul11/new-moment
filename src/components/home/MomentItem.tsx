@@ -14,7 +14,6 @@ import { Fragment } from "react";
 import ActionButton from "../moment/ActionButton";
 import FollowingButton from "../moment/FollowingButton";
 import ListRow from "@shared/ListRow";
-import { format } from "date-fns";
 import formatDate from "@/utils/formatTime";
 
 function MomentItem({ moment }: { moment: Moment }) {
@@ -31,6 +30,7 @@ function MomentItem({ moment }: { moment: Moment }) {
             <ListRow.Texts
               title={data?.displayName}
               subTitle={formatDate(moment.createdAt)}
+              typography="t6"
             />
           }
         />
@@ -44,7 +44,7 @@ function MomentItem({ moment }: { moment: Moment }) {
           <Flex direction="column" css={contentsWrap}>
             {moment.image && (
               <Flex justify="center">
-                <img src={moment.image} css={photoWrap} />
+                <img src={moment.image} css={photoWrap} alt="momentImage" />
               </Flex>
             )}
             <Spacing size={16} />
@@ -70,29 +70,24 @@ function MomentItem({ moment }: { moment: Moment }) {
       <Spacing size={8} />
       {/* footer */}
       <ActionButton moment={moment} />
+      <Spacing size={8} />
     </li>
   );
 }
 
 const containerStyle = css`
-  padding: 12px 12px;
+  padding: 6px 12px;
   border-bottom: 4px solid ${colors.gray200};
   list-style: none;
 `;
 const photoWrap = css`
   width: 100%;
-  height: 300px;
+  height: 350px;
+  object-fit: contain;
+  background-color: ${colors.gray200};
 `;
 const contentsWrap = css`
   min-height: 80px;
   cursor: pointer;
 `;
-const iconStyles = css`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
-`;
-const footer = css``;
 export default MomentItem;

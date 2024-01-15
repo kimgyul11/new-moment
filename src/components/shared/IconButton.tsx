@@ -17,7 +17,7 @@ function IconButton({
   return (
     <Flex
       onClick={onClick}
-      css={ButtonContainer}
+      css={ButtonContainer(colors[color])}
       justify="center"
       align="center"
     >
@@ -29,18 +29,19 @@ function IconButton({
   );
 }
 
-const ButtonContainer = css`
+const ButtonContainer = (borderColor: string) => css`
   cursor: pointer;
-  border: 1px solid ${colors.gray300};
+  border: 1px solid ${borderColor};
   border-radius: 6px;
   height: 25px;
-  width: 50px;
+  min-width: 50px;
+  padding: 2px 4px;
 
   img {
     margin-right: 5px;
     margin-bottom: 2px;
-    width: 15px;
-    height: 15px;
+    width: 17px;
+    height: 17px;
   }
 `;
 

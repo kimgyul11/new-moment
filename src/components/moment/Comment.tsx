@@ -2,13 +2,13 @@ import { useCallback } from "react";
 import { css } from "@emotion/react";
 import useComments from "./hooks/useComments";
 import Spacing from "@shared/Spacing";
-
 import CommentBox from "./CommentBox";
 import Form from "./Form";
 import { Moment } from "@/models/moment";
 
 function Comment({ moment }: { moment: Moment }) {
   const { data: comments, isLoading } = useComments({ momentId: moment.id });
+
   //댓글을 부모로부터 매개변수로 받는다.
   // 1.댓글 유무에 따른 렌더링
   const renderComments = useCallback(() => {
@@ -24,7 +24,7 @@ function Comment({ moment }: { moment: Moment }) {
         ))}
       </ul>
     );
-  }, [comments]);
+  }, [comments, moment.id]);
 
   if (isLoading) {
     return null;

@@ -1,3 +1,4 @@
+import IconButton from "../shared/IconButton";
 import useFollow from "./hooks/useFollow";
 import useUser from "@/hooks/auth/useUser";
 
@@ -17,20 +18,31 @@ function FollowingButton({ momentWriter }: { momentWriter: string }) {
   return (
     <div>
       {data && data.includes(user.uid) ? (
-        <p
+        <IconButton
+          iconUrl={
+            "https://cdn3.iconfinder.com/data/icons/twitter-ui/48/jee01-27-512.png"
+          }
+          color="blue500"
+          text={"팔로잉 중"}
           onClick={() =>
             unFollow({ userId: user.uid, followingId: momentWriter })
           }
-        >
-          팔로잉 중..
-        </p>
+        />
       ) : (
         <p
           onClick={() =>
             follow({ userId: user.uid, followingId: momentWriter })
           }
         >
-          팔로우
+          <IconButton
+            iconUrl={
+              "https://cdn3.iconfinder.com/data/icons/twitter-ui/48/jee01-26-512.png"
+            }
+            text={"팔로우"}
+            onClick={() =>
+              follow({ userId: user.uid, followingId: momentWriter })
+            }
+          />
         </p>
       )}
     </div>

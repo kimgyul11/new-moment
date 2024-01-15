@@ -21,7 +21,7 @@ function ActionButton({ moment }: { moment: Moment }) {
       {user?.uid === moment.userId ? (
         <Flex>
           <IconButton
-            iconUrl="https://cdn2.iconfinder.com/data/icons/app-user-interface-6/48/Trash-512.png"
+            iconUrl="https://cdn1.iconfinder.com/data/icons/jumpicon-basic-ui-filled-line-1/32/-_Trash-Can--512.png"
             color="red"
             text="삭제"
             onClick={() => {

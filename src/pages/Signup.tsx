@@ -6,6 +6,8 @@ import { FormValues } from "@/models/signup";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { COLLECTIONS } from "@constants/collections";
 import { FirebaseError } from "firebase/app";
+import { css } from "@emotion/react";
+import Spacing from "@/components/shared/Spacing";
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -41,7 +43,14 @@ function SignupPage() {
     }
   };
 
-  return <Form onSubmit={handleSubmit}></Form>;
+  return (
+    <div css={container}>
+      <Spacing size={68} />
+      <Form onSubmit={handleSubmit}></Form>
+    </div>
+  );
 }
-
+const container = css`
+  height: 100vh;
+`;
 export default SignupPage;

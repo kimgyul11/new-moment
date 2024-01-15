@@ -6,6 +6,8 @@ import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useCallback } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import { css } from "@emotion/react";
+import Spacing from "@/components/shared/Spacing";
 
 function SigninPage() {
   const user = useUser();
@@ -30,7 +32,14 @@ function SigninPage() {
   if (user) {
     return <Navigate to="/" replace={true} />;
   }
-  return <Form onSubmit={handleSubmit} />;
+  return (
+    <div css={container}>
+      <Spacing size={68} />
+      <Form onSubmit={handleSubmit} />
+    </div>
+  );
 }
-
+const container = css`
+  height: 100vh;
+`;
 export default SigninPage;

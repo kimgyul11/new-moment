@@ -39,11 +39,13 @@ function Form({
       <Button
         disabled={!user || content.length === 0}
         onClick={async () => {
-          add({
-            content: `${user?.displayName}님이 게시글에 댓글을 남겼습니다.`,
-            url: `/moments/${momentId}`,
-            userId: momentAuthor,
-          });
+          if (user?.uid !== momentAuthor) {
+            add({
+              content: `${user?.displayName}님이 게시글에 댓글을 남겼습니다.`,
+              url: `/moments/${momentId}`,
+              userId: momentAuthor,
+            });
+          }
           const success = await write(content);
           if (success === true) {
             setContent("");
