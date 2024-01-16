@@ -4,7 +4,6 @@ import Flex from "@/components/shared/Flex";
 import SearchBar from "@/components/shared/SearchBar";
 import Spacing from "@/components/shared/Spacing";
 import Text from "@/components/shared/Text";
-import Top from "@/components/shared/Top";
 import { css } from "@emotion/react";
 
 import { KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
@@ -31,7 +30,7 @@ function SearchPage() {
         setSearch(id);
       }
     },
-    [id, search]
+    [id, search, navigate]
   );
   useEffect(() => {
     setSearch(id);

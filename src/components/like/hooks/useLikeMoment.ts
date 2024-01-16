@@ -1,4 +1,3 @@
-import useUser from "@/hooks/auth/useUser";
 import { getLikeMoments } from "@/remote/moment";
 import { useInfiniteQuery } from "react-query";
 

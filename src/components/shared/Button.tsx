@@ -6,7 +6,7 @@ import {
   buttonWeakMap,
 } from "@/styles/button";
 import { colors } from "@/styles/colorPalette";
-import { SerializedStyles, css } from "@emotion/react";
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Flex from "./Flex";
 import Text from "./Text";

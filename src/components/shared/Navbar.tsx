@@ -21,7 +21,7 @@ function Navbar() {
     if (pathname === "/") {
       return (
         <SearchBar
-          placeholder="태그를 검색해보세요"
+          placeholder="# 태그를 검색해보세요"
           onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter") {
               const trimmedValue = e.currentTarget.value.trim();
@@ -31,20 +31,18 @@ function Navbar() {
           ref={inputRef}
         />
       );
-    }
-    if (pathname === "/my") {
-      return <Text bold={true}>마이 모멘트</Text>;
-    }
-    if (pathname === "/signin") {
+    } else if (pathname === "/signin") {
       return <Text bold={true}>로그인</Text>;
-    }
-    if (pathname === "/signup") {
+    } else if (pathname === "/signup") {
       return <Text bold={true}>회원가입</Text>;
+    } else {
+      return (
+        <Link to="/">
+          <Text bold={true}>MOMENT</Text>
+        </Link>
+      );
     }
-    if (pathname === "/notification") {
-      return <Text bold={true}>알림</Text>;
-    }
-  }, [pathname]);
+  }, [pathname, inputRef, navigate]);
 
   const renderButton = useCallback(() => {
     if (user != null) {
@@ -59,17 +57,23 @@ function Navbar() {
     if (showSignButton) {
       return (
         <Link to="/signin">
-          <Button>로그인/회원가입</Button>
+          <Button size="small">로그인</Button>
         </Link>
       );
     }
+    return <div></div>;
   }, [user, showSignButton]);
 
   const renderLeft = useCallback(() => {
-    if (pathname === "/" || pathname.includes("search")) {
+    if (
+      pathname === "/" ||
+      pathname.includes("search") ||
+      pathname === "signin" ||
+      pathname === "singup"
+    ) {
       return (
         <Link to="/">
-          <p>LOGO</p>
+          <Text bold={true}>MOMENT</Text>
         </Link>
       );
     } else {
@@ -80,10 +84,11 @@ function Navbar() {
           height={30}
           onClick={() => navigate(-1)}
           style={{ cursor: "pointer" }}
+          alt="backImage"
         />
       );
     }
-  }, [pathname]);
+  }, [pathname, navigate]);
 
   return (
     <Container>

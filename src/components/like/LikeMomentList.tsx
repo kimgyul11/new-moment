@@ -1,7 +1,6 @@
 import InfiniteScroll from "react-infinite-scroll-component";
 import MomentItem from "../home/MomentItem";
 import useLikeMoment from "./hooks/useLikeMoment";
-import useUser from "@/hooks/auth/useUser";
 
 function LikeMomentList({ userId }: { userId: string }) {
   const { data: moments, hasNextPage, loadMore } = useLikeMoment({ userId });

@@ -1,12 +1,11 @@
 import { css } from "@emotion/react";
-import { ChangeEvent, useCallback, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "@shared/Button";
 import Flex from "@shared/Flex";
 import Spacing from "@shared/Spacing";
 import Text from "@shared/Text";
 import TextField from "@shared/TextFiled";
-import { colors } from "@/styles/colorPalette";
 import { FormValues } from "@/models/signin";
 
 function Form({ onSubmit }: { onSubmit: (formValues: FormValues) => void }) {
@@ -22,9 +21,6 @@ function Form({ onSubmit }: { onSubmit: (formValues: FormValues) => void }) {
     }));
   }, []);
 
-  // const errors = useMemo(() => validate(formValues), [formValues]);
-  // const check = Object.keys(errors).length === 0;
-
   return (
     <Flex direction="column" css={formContainerStyles}>
       <TextField
@@ -37,6 +33,7 @@ function Form({ onSubmit }: { onSubmit: (formValues: FormValues) => void }) {
       <Spacing size={16} />
       <TextField
         label="패스워드"
+        placeholder="패스워드를 입력해주세요"
         type="password"
         name="password"
         onChange={handleFormValues}
@@ -45,7 +42,7 @@ function Form({ onSubmit }: { onSubmit: (formValues: FormValues) => void }) {
       <Spacing size={32} />
       <Button
         size="medium"
-        // disabled={check === false}
+        disabled={formValues.email === "" || formValues.password === ""}
         onClick={() => {
           onSubmit(formValues);
         }}
@@ -54,32 +51,19 @@ function Form({ onSubmit }: { onSubmit: (formValues: FormValues) => void }) {
       </Button>
       <Spacing size={12} />
       <Link to="/signup" css={linkStyles}>
-        <Text typography="t7">아직 계정이 없으신가요?</Text>
+        <Text typography="t7" color="blue500">
+          아직 계정이 없으신가요?
+        </Text>
       </Link>
     </Flex>
   );
 }
-
-// function validate(formValues: FormValues) {
-//   let errors: Partial<FormValues> = {};
-
-//   if (validator.isEmail(formValues.email) === false)
-//     errors.email = "이메일 형식을 확인해주세요!";
-//   if (formValues.password.length < 8) {
-//     errors.password = "비밀번호를 8글자 이상 입력해주세요";
-//   }
-
-//   return errors;
-// }
 
 const formContainerStyles = css`
   padding: 24px;
 `;
 const linkStyles = css`
   text-align: center;
-  & > span:hover {
-    color: ${colors.blue};
-  }
 `;
 
 export default Form;

@@ -15,6 +15,7 @@ import ActionButton from "../moment/ActionButton";
 import FollowingButton from "../moment/FollowingButton";
 import ListRow from "@shared/ListRow";
 import formatDate from "@/utils/formatTime";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function MomentItem({ moment }: { moment: Moment }) {
   const { data } = useGetProfile({ userId: moment.userId });
@@ -44,7 +45,14 @@ function MomentItem({ moment }: { moment: Moment }) {
           <Flex direction="column" css={contentsWrap}>
             {moment.image && (
               <Flex justify="center">
-                <img src={moment.image} css={photoWrap} alt="momentImage" />
+                <LazyLoadImage
+                  src={moment.image}
+                  css={photoWrap}
+                  alt="momentImage"
+                  effect="opacity"
+                  height={350}
+                />
+                {/* <img src={moment.image} css={photoWrap} alt="momentImage" /> */}
               </Flex>
             )}
             <Spacing size={16} />

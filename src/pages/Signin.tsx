@@ -13,22 +13,24 @@ function SigninPage() {
   const user = useUser();
   const navigate = useNavigate();
   //submit이벤트
-  const handleSubmit = useCallback(async (formValues: FormValues) => {
-    const { email, password } = formValues;
-    console.log(formValues);
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
-    } catch (e) {
-      console.log(e);
-      if (e instanceof FirebaseError) {
-        if (e.code === "auth/invalid-credential") {
-          //에러 메세지
-          return;
+  const handleSubmit = useCallback(
+    async (formValues: FormValues) => {
+      const { email, password } = formValues;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        navigate("/");
+      } catch (e) {
+        console.log(e);
+        if (e instanceof FirebaseError) {
+          if (e.code === "auth/invalid-credential") {
+            //에러 메세지
+            return;
+          }
         }
       }
-    }
-  }, []);
+    },
+    [navigate]
+  );
   if (user) {
     return <Navigate to="/" replace={true} />;
   }

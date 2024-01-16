@@ -24,7 +24,6 @@ function Form({ onSubmit }: { onSubmit: (formValues: FormValues) => void }) {
 
   let password = watch("password");
 
-  const isFormValid = Object.keys(errors).length === 0;
   return (
     <div css={containerStyle}>
       <form>

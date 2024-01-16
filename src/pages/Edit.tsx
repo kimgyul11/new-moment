@@ -95,11 +95,12 @@ function Edit() {
           onChange={handleFileUpload}
         />
         {imageFile ? (
-          <img src={imageFile} width={"100%"} height={"100%"} />
+          <img src={imageFile} width={"100%"} height={"100%"} alt="" />
         ) : (
           <img
             src="https://cdn0.iconfinder.com/data/icons/phosphor-regular-vol-3/256/image-512.png"
             width={40}
+            alt=""
           />
         )}
       </Flex>

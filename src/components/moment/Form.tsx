@@ -32,6 +32,7 @@ function Form({
               : "댓글을 쓰려면 로그인이 필요합니다."
           }
           value={content}
+          disabled={!user}
           onChange={handleContentChange}
         />
       </Flex>

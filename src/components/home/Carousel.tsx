@@ -37,7 +37,7 @@ function Carousel() {
             style={{ cursor: "pointer" }}
             onClick={() => navigate(`/moments/${moment.id}`)}
           >
-            <img src={moment.image} />
+            <img src={moment.image} alt="" />
           </SwiperSlide>
         ))}
       </Swiper>

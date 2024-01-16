@@ -10,6 +10,7 @@ import { useSetRecoilState } from "recoil";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { collection, doc, updateDoc } from "firebase/firestore";
 import { COLLECTIONS } from "@/constants/collections";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function ProfileImage({
   size = 40,
@@ -49,7 +50,7 @@ function ProfileImage({
   };
   return (
     <Container>
-      <img
+      <LazyLoadImage
         src={
           mode === "moment"
             ? url ||
@@ -60,6 +61,7 @@ function ProfileImage({
         width={size}
         height={size}
         alt="profile"
+        effect="opacity"
       />
       {mode === "upload" ? (
         <input type="file" accept="image/*" onChange={handleUploadImage} />

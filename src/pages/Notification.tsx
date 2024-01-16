@@ -17,12 +17,21 @@ function NotificationPage() {
   const user = useUser();
   const { notifications, loadingNotifications, read, remove } =
     useNotification();
+
   const render = useCallback(() => {
     if (!user) {
       return (
-        <Text display="block" textAlign="center">
-          로그인 후 사용할 수 있습니다.
-        </Text>
+        <>
+          <Spacing size={16} />
+          <Text
+            display="block"
+            textAlign="center"
+            color="gray500"
+            typography="t6"
+          >
+            로그인이 필요합니다!
+          </Text>
+        </>
       );
     }
     if (loadingNotifications) {
@@ -80,7 +89,7 @@ function NotificationPage() {
         </Flex>
       ))
     );
-  }, [user, notifications, loadingNotifications]);
+  }, [user, loadingNotifications, notifications, read, navigate, remove]);
 
   return (
     <div css={wrap}>
@@ -92,7 +101,7 @@ function NotificationPage() {
   );
 }
 const wrap = css`
-  height: 100vh;
+  min-height: 100vh;
   padding: 0px 12px;
 `;
 

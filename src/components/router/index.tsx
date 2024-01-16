@@ -1,5 +1,6 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import ScrollToTop from "../shared/ScrollToTop";
 
 const PrivateRoute = lazy(() => import("@components/auth/PrivateRoute"));
 const LikePage = lazy(() => import("@pages/Like"));
@@ -21,6 +22,7 @@ function Router() {
   return (
     <Suspense fallback={<></>}>
       <BrowserRouter>
+        <ScrollToTop />
         <AuthGuard>
           <Navbar />
           <Routes>
