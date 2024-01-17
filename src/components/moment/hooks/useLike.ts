@@ -9,11 +9,15 @@ function useLike({ momentId }: { momentId: string }) {
     getLike({ momentId })
   );
 
-  //좋아요
+  //좋아요 추가
   const { mutate: like } = useMutation(
     ({ momentId, likeCount }: { momentId: string; likeCount: number }) =>
       addLike({ userId: user?.uid as string, momentId, likeCount }),
     {
+      onMutate: async (data) => {
+        await client.cancelQueries({ queryKey: ["likes", momentId] });
+        client.setQueryData(["likes", momentId], data);
+      },
       onSuccess: () => {
         client.invalidateQueries(["likes", momentId]);
       },
@@ -25,6 +29,10 @@ function useLike({ momentId }: { momentId: string }) {
     ({ momentId, likeCount }: { momentId: string; likeCount: number }) =>
       removeLike({ userId: user?.uid as string, momentId, likeCount }),
     {
+      onMutate: async (data) => {
+        await client.cancelQueries({ queryKey: ["likes", momentId] });
+        client.setQueryData(["likes", momentId], data);
+      },
       onSuccess: () => {
         client.invalidateQueries(["likes", momentId]);
       },

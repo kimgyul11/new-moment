@@ -27,6 +27,7 @@ function MomentPage() {
       <KakaoButton moment={moment} />
       {/* 댓글 */}
       <Comment moment={moment} />
+      <Spacing size={120} />
     </div>
   );
 }

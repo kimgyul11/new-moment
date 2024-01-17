@@ -37,7 +37,6 @@ function MomentItem({ moment }: { moment: Moment }) {
         />
         <FollowingButton momentWriter={moment.userId} />
       </Flex>
-
       <Spacing size={8} />
       {/* contents */}
       <Flex direction="column">

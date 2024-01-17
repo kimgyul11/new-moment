@@ -8,6 +8,7 @@ import { colors } from "@/styles/colorPalette";
 import "swiper/css";
 import "swiper/css/pagination";
 import { useNavigate } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 function Carousel() {
   const { data } = useBestMoment();
   const pagination = {
@@ -37,7 +38,7 @@ function Carousel() {
             style={{ cursor: "pointer" }}
             onClick={() => navigate(`/moments/${moment.id}`)}
           >
-            <img src={moment.image} alt="" />
+            <LazyLoadImage src={moment.image} alt="" height={370} />
           </SwiperSlide>
         ))}
       </Swiper>

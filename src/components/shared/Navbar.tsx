@@ -35,6 +35,8 @@ function Navbar() {
       return <Text bold={true}>로그인</Text>;
     } else if (pathname === "/signup") {
       return <Text bold={true}>회원가입</Text>;
+    } else if (pathname.split("/").includes("search")) {
+      return null;
     } else {
       return (
         <Link to="/">
