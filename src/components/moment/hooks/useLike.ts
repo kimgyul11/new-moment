@@ -16,10 +16,16 @@ function useLike({ momentId }: { momentId: string }) {
     {
       onMutate: async (data) => {
         await client.cancelQueries({ queryKey: ["likes", momentId] });
+        const prevValue = client.getQueryData(["likes", momentId]);
         client.setQueryData(["likes", momentId], data);
+
+        return { prevValue };
       },
-      onSuccess: () => {
+      onSettled: () => {
         client.invalidateQueries(["likes", momentId]);
+      },
+      onError: (_, __, context) => {
+        client.setQueryData(["likes", momentId], context?.prevValue);
       },
     }
   );
@@ -31,10 +37,15 @@ function useLike({ momentId }: { momentId: string }) {
     {
       onMutate: async (data) => {
         await client.cancelQueries({ queryKey: ["likes", momentId] });
+        const prevValue = client.getQueryData(["likes", momentId]);
         client.setQueryData(["likes", momentId], data);
+        return { prevValue };
       },
       onSuccess: () => {
         client.invalidateQueries(["likes", momentId]);
+      },
+      onError: (_, __, context) => {
+        client.setQueryData(["likes", momentId], context?.prevValue);
       },
     }
   );
